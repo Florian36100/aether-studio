@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>L'avenir du logement urbain — Aether Studio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #E8F2FA; --white: #FFFFFF; --dark: #111827; --dark2: #1F2937;
+      --orange: #D9632B; --orange-h: #C2571F; --orange-pale: rgba(217,99,43,0.10);
+      --muted: #6B7280; --muted2: #9CA3AF; --border: rgba(0,0,0,0.08);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 48px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { width: 34px; height: 34px; }
+    .nav-logo-name { font-size: 16px; font-weight: 700; color: var(--dark); letter-spacing: -0.3px; }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--dark); }
+    .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* HERO ARTICLE */
+    .article-hero {
+      position: relative;
+      height: clamp(340px, 50vw, 580px);
+      overflow: hidden;
+    }
+    .article-hero img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .article-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(17,24,39,0.75) 0%, rgba(17,24,39,0.2) 60%, transparent 100%);
+    }
+    .article-hero-meta {
+      position: absolute; bottom: 40px; left: 48px; right: 48px;
+    }
+    .article-cat {
+      display: inline-block;
+      background: var(--orange); color: #fff;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 5px 14px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .article-hero-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 400; color: #fff;
+      line-height: 1.15; letter-spacing: -1px;
+      max-width: 780px;
+    }
+
+    /* CONTENT */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    .article-byline {
+      display: flex; align-items: center; gap: 14px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--orange-pale);
+      border: 2px solid rgba(217,99,43,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--orange);
+      flex-shrink: 0;
+    }
+    .author-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .author-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .article-content h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 400; color: var(--dark);
+      line-height: 1.2; letter-spacing: -0.5px;
+      margin: 48px 0 18px;
+    }
+    .article-content h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 20px; font-weight: 400; color: var(--dark);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 16px; font-weight: 300; color: #374151;
+      line-height: 1.85; margin-bottom: 22px;
+    }
+    .article-content strong { font-weight: 600; color: var(--dark); }
+    .article-content em { font-style: italic; color: var(--orange); }
+
+    .article-pullquote {
+      border-left: 3px solid var(--orange);
+      padding: 4px 0 4px 28px;
+      margin: 40px 0;
+    }
+    .article-pullquote p {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-style: italic; color: var(--dark);
+      line-height: 1.4; margin: 0;
+    }
+
+    .article-img {
+      width: 100%; border-radius: 14px;
+      margin: 40px 0; display: block;
+      aspect-ratio: 16/9; object-fit: cover;
+    }
+
+    .article-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 48px 0 0; padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .tag {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; font-weight: 500;
+      padding: 5px 14px; border-radius: 100px;
+    }
+
+    /* RELATED */
+    .related { background: var(--white); padding: 72px 48px; }
+    .related-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 28px; font-weight: 400; color: var(--dark);
+      letter-spacing: -0.5px; margin-bottom: 36px;
+    }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .related-card {
+      background: var(--bg);
+      border-radius: 14px; overflow: hidden;
+      text-decoration: none; color: inherit;
+      border: 1px solid var(--border);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .related-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .related-body { padding: 18px 20px 22px; }
+    .related-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--orange); margin-bottom: 8px; }
+    .related-name { font-family: 'DM Serif Display', Georgia, serif; font-size: 16px; font-weight: 400; color: var(--dark); line-height: 1.3; }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark); padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+    }
+    .footer-brand { font-family: 'DM Serif Display', serif; font-size: 15px; color: rgba(255,255,255,0.35); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.12); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .article-hero-meta { left: 24px; right: 24px; bottom: 28px; }
+      .related { padding: 56px 24px; }
+      .related-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index-v2.html" class="nav-logo">
+    <svg viewBox="0 0 34 34" fill="none"><polygon points="17,2 31,9.5 31,24.5 17,32 3,24.5 3,9.5" fill="#D9632B"/><path d="M11 17h12M17 11v12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="nav-logo-name">Aether Studio</span>
+  </a>
+  <a href="index-v2.html#blog" class="nav-back">
+    <svg viewBox="0 0 14 10"><path d="M13 5 H1 M6 1 l-5 4 5 4"/></svg>
+    Retour au blog
+  </a>
+</nav>
+
+<div class="article-hero">
+  <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=85&fit=crop" alt="Logement urbain" />
+  <div class="article-hero-overlay"></div>
+  <div class="article-hero-meta">
+    <div class="article-cat">Design urbain</div>
+    <h1 class="article-hero-title">L'avenir du logement urbain : densité sans compromis</h1>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <div class="article-byline">
+    <div class="author-avatar">LM</div>
+    <div>
+      <div class="author-name">Léa Moreau</div>
+      <div class="author-meta">14 avril 2026 · 8 min de lecture · Architecture</div>
+    </div>
+  </div>
+
+  <div class="article-content">
+
+    <p>La question n'est plus de savoir si nos villes vont se densifier — elles le font déjà. La vraie question, c'est <strong>comment</strong>. Dans un contexte de pression foncière croissante, de crise du logement et d'urgence climatique, l'architecture urbaine est convoquée à répondre à un défi apparemment insoluble : loger plus de monde, sans dégrader la qualité de vie.</p>
+
+    <p>Pendant des décennies, la densité a été synonyme de compromis. Plus d'étages, moins de lumière. Plus de logements, moins d'espace. Plus de rentabilité, moins d'humanité. Cette équation, nous refusons de la tenir pour acquise.</p>
+
+    <div class="article-pullquote">
+      <p>« Construire dense ne signifie pas construire mal. C'est une invitation à concevoir avec une précision redoublée. »</p>
+    </div>
+
+    <h2>Repenser le programme mixte</h2>
+
+    <p>L'une des réponses les plus prometteuses est le programme <strong>à usage mixte</strong> — ce modèle où commerces, bureaux, logements et espaces publics coexistent dans un même immeuble ou îlot. Loin d'être une nouveauté, c'est en réalité un retour aux fondamentaux de la ville européenne traditionnelle, enrichi par les outils contemporains.</p>
+
+    <p>Nos projets récents à Paris et Lyon nous ont appris que la mixité fonctionnelle, bien orchestrée, génère une forme de vitalité urbaine que les zonages mono-fonctionnels ne peuvent pas produire. Un café au rez-de-chaussée, des bureaux aux premiers étages, des logements en hauteur avec des terrasses filantes — chaque niveau a sa propre logique, sa propre échelle d'intimité.</p>
+
+    <img class="article-img" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=85&fit=crop" alt="Immeuble mixte Paris" />
+
+    <h2>La lumière comme ressource rare</h2>
+
+    <p>Dans un contexte de forte densité, la lumière naturelle devient une ressource à planifier avec autant de soin qu'un système structurel. Nos études d'ensoleillement commencent désormais dès la phase esquisse, intégrées aux simulations thermiques. L'orientation, la profondeur des appartements, la position des cours intérieures — tout est arbitré en fonction du soleil.</p>
+
+    <p>Nous avons développé une approche que nous appelons la <em>section habitée</em> : une coupe verticale de l'immeuble pensée non pas pour maximiser la surface au sol, mais pour garantir à chaque logement un minimum de 4 heures d'ensoleillement direct en hiver. Ce qui semble être une contrainte devient un générateur de forme.</p>
+
+    <h3>Les cours traversantes</h3>
+
+    <p>La cour intérieure — souvent vue comme un archaïsme haussmannien — connaît un regain d'intérêt justifié. Bien dimensionnée et bien orientée, elle introduit de la lumière en profondeur de l'îlot, crée un espace collectif à l'abri des nuisances sonores de la rue et structure une identité forte pour la résidence.</p>
+
+    <div class="article-pullquote">
+      <p>« Une cour bien conçue vaut souvent plus, en termes de qualité de vie, qu'un balcon individuel. »</p>
+    </div>
+
+    <h2>Le défi de l'acoustique</h2>
+
+    <p>Dans les immeubles denses, l'acoustique est souvent le parent pauvre de la conception — traité en toute fin de projet, après que les grandes décisions structurelles ont été prises. C'est une erreur que nous avons appris à corriger. L'isolation phonique entre logements, mais aussi la protection contre le bruit de la rue, sont des paramètres qui influencent directement la qualité architecturale : épaisseur des murs, type de matériaux, disposition des pièces de vie.</p>
+
+    <p>Nos projets récents intègrent des <strong>simulations acoustiques dès la phase PC</strong>, avec des objectifs chiffrés pour chaque type de pièce. Ce n'est pas une question de confort secondaire — c'est une question de santé.</p>
+
+    <img class="article-img" src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=1200&q=85&fit=crop" alt="Espace intérieur lumineux" />
+
+    <h2>Vers une densité désirée</h2>
+
+    <p>Le paradoxe de la densité, c'est que les Parisiens qui se plaignent de vivre à l'étroit sont souvent ceux qui chérissent le plus leur quartier — sa vie de rue, ses commerces de proximité, son animation permanente. La densité, quand elle est bien conçue, <em>est ce qui rend la ville vivable</em>.</p>
+
+    <p>Notre conviction est qu'il est possible de concilier densité et qualité résidentielle, à condition d'aborder chaque projet avec une exigence absolue sur trois points : la lumière, l'acoustique, et la hiérarchie des espaces collectifs. Ce n'est pas une question de budget — c'est une question de méthode.</p>
+
+    <p>L'architecture urbaine de demain ne ressemblera pas aux grands ensembles des années 1960, ni aux résidences fermées des années 2000. Elle sera dense, ouverte sur la ville, traversée de lumière et de végétation — et elle sera belle, parce que la beauté, dans ce contexte, n'est pas un luxe. C'est une nécessité sociale.</p>
+
+    <div class="article-tags">
+      <span class="tag">Logement</span>
+      <span class="tag">Design urbain</span>
+      <span class="tag">Usage mixte</span>
+      <span class="tag">Paris</span>
+      <span class="tag">Lumière naturelle</span>
+      <span class="tag">Acoustique</span>
+    </div>
+  </div>
+</div>
+
+<div class="related">
+  <div class="related-title">Articles similaires</div>
+  <div class="related-grid">
+    <a href="article-design-biophilique.html" class="related-card">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=85&fit=crop" alt="Design biophilique" />
+      <div class="related-body">
+        <div class="related-cat">Durabilité</div>
+        <div class="related-name">Design biophilique : pourquoi la nature a sa place à l'intérieur</div>
+      </div>
+    </a>
+    <a href="article-materialite-memoire.html" class="related-card">
+      <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85&fit=crop" alt="Matérialité" />
+      <div class="related-body">
+        <div class="related-cat">Matériaux</div>
+        <div class="related-name">Matérialité et mémoire : le béton, l'acier et les histoires qu'ils racontent</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Aether Studio</div>
+  <div class="footer-copy">© 2026 Aether Studio — Paris</div>
+</footer>
+
+</body>
+</html>

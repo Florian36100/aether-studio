@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Matérialité et mémoire — Aether Studio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #E8F2FA; --white: #FFFFFF; --dark: #111827; --dark2: #1F2937;
+      --orange: #D9632B; --orange-h: #C2571F; --orange-pale: rgba(217,99,43,0.10);
+      --muted: #6B7280; --muted2: #9CA3AF; --border: rgba(0,0,0,0.08);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 48px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { width: 34px; height: 34px; }
+    .nav-logo-name { font-size: 16px; font-weight: 700; color: var(--dark); letter-spacing: -0.3px; }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--dark); }
+    .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* HERO ARTICLE */
+    .article-hero {
+      position: relative;
+      height: clamp(340px, 50vw, 580px);
+      overflow: hidden;
+    }
+    .article-hero img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .article-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(17,24,39,0.80) 0%, rgba(17,24,39,0.25) 60%, transparent 100%);
+    }
+    .article-hero-meta {
+      position: absolute; bottom: 40px; left: 48px; right: 48px;
+    }
+    .article-cat {
+      display: inline-block;
+      background: var(--orange); color: #fff;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 5px 14px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .article-hero-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 400; color: #fff;
+      line-height: 1.15; letter-spacing: -1px;
+      max-width: 780px;
+    }
+
+    /* CONTENT */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    .article-byline {
+      display: flex; align-items: center; gap: 14px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--orange-pale);
+      border: 2px solid rgba(217,99,43,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--orange);
+      flex-shrink: 0;
+    }
+    .author-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .author-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .article-content h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 400; color: var(--dark);
+      line-height: 1.2; letter-spacing: -0.5px;
+      margin: 48px 0 18px;
+    }
+    .article-content h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 20px; font-weight: 400; color: var(--dark);
+      margin: 36px 0 14px;
+    }
+    .article-content p {
+      font-size: 16px; font-weight: 300; color: #374151;
+      line-height: 1.85; margin-bottom: 22px;
+    }
+    .article-content strong { font-weight: 600; color: var(--dark); }
+    .article-content em { font-style: italic; color: var(--orange); }
+
+    .article-pullquote {
+      border-left: 3px solid var(--orange);
+      padding: 4px 0 4px 28px;
+      margin: 40px 0;
+    }
+    .article-pullquote p {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-style: italic; color: var(--dark);
+      line-height: 1.4; margin: 0;
+    }
+
+    .article-img {
+      width: 100%; border-radius: 14px;
+      margin: 40px 0; display: block;
+      aspect-ratio: 16/9; object-fit: cover;
+    }
+
+    .article-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 48px 0 0; padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .tag {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; font-weight: 500;
+      padding: 5px 14px; border-radius: 100px;
+    }
+
+    /* RELATED */
+    .related { background: var(--white); padding: 72px 48px; }
+    .related-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 28px; font-weight: 400; color: var(--dark);
+      letter-spacing: -0.5px; margin-bottom: 36px;
+    }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .related-card {
+      background: var(--bg);
+      border-radius: 14px; overflow: hidden;
+      text-decoration: none; color: inherit;
+      border: 1px solid var(--border);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .related-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .related-body { padding: 18px 20px 22px; }
+    .related-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--orange); margin-bottom: 8px; }
+    .related-name { font-family: 'DM Serif Display', Georgia, serif; font-size: 16px; font-weight: 400; color: var(--dark); line-height: 1.3; }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark); padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+    }
+    .footer-brand { font-family: 'DM Serif Display', serif; font-size: 15px; color: rgba(255,255,255,0.35); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.12); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .article-hero-meta { left: 24px; right: 24px; bottom: 28px; }
+      .related { padding: 56px 24px; }
+      .related-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index-v2.html" class="nav-logo">
+    <svg viewBox="0 0 34 34" fill="none"><polygon points="17,2 31,9.5 31,24.5 17,32 3,24.5 3,9.5" fill="#D9632B"/><path d="M11 17h12M17 11v12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="nav-logo-name">Aether Studio</span>
+  </a>
+  <a href="index-v2.html#blog" class="nav-back">
+    <svg viewBox="0 0 14 10"><path d="M13 5 H1 M6 1 l-5 4 5 4"/></svg>
+    Retour au blog
+  </a>
+</nav>
+
+<div class="article-hero">
+  <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=85&fit=crop" alt="Béton et acier" />
+  <div class="article-hero-overlay"></div>
+  <div class="article-hero-meta">
+    <div class="article-cat">Matériaux</div>
+    <h1 class="article-hero-title">Matérialité et mémoire : le béton, l'acier et les histoires qu'ils racontent</h1>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <div class="article-byline">
+    <div class="author-avatar">SR</div>
+    <div>
+      <div class="author-name">Sofia Reyes</div>
+      <div class="author-meta">10 mars 2026 · 6 min de lecture · Matériaux</div>
+    </div>
+  </div>
+
+  <div class="article-content">
+
+    <p>Il y a dans chaque matériau une temporalité. Le bois vieillit, se patine, garde les traces de ce qu'il a traversé. La pierre absorbe l'humidité des hivers et sèche aux étés. Le béton brut, que l'on croit inerte, porte les marques des coffrages qui l'ont contenu, les irrégularités du coulage, les nuances d'une journée de chantier. <strong>Les matériaux ont une mémoire</strong> — et les bâtiments qui les assument durent plus longtemps dans les esprits que ceux qui les dissimulent.</p>
+
+    <p>C'est l'un des paradoxes de l'architecture contemporaine : à force de chercher la perfection de surface — l'enduit lisse, la peinture uniforme, le revêtement sans défaut — on a produit des espaces sans âge, et donc sans âme. Des bâtiments neufs qui paraissent déjà vieux parce qu'ils ne portent aucune promesse de vieillissement.</p>
+
+    <div class="article-pullquote">
+      <p>« Un matériau qui vieillit bien est un matériau honnête. Il ne prétend pas être autre chose que ce qu'il est. »</p>
+    </div>
+
+    <h2>Le béton brut : une poétique du coulage</h2>
+
+    <p>Le béton a mauvaise réputation. On l'associe aux grands ensembles des années 1970, aux façades grises et monotones, à l'architecture de masse sans qualité. C'est oublier que le béton brut de décoffrage, dans les mains d'un architecte qui maîtrise ses outils, est l'un des matériaux les plus expressifs qui soit.</p>
+
+    <p>Sa texture est celle du coffrage : bois, métal, tissu, béton lui-même. Sa couleur varie avec la composition, le dosage en eau, l'heure à laquelle il a été coulé. Ses imperfections — les bulles d'air, les nids de cailloux, les reprises de bétonnage — sont les cicatrices d'un processus physique, les traces d'un labeur collectif. Le béton brut est un <em>document</em>.</p>
+
+    <img class="article-img" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&q=85&fit=crop" alt="Architecture béton brut" />
+
+    <h2>L'acier : entre permanence et transformation</h2>
+
+    <p>L'acier est à l'opposé de cette logique — ou plutôt, il en est le complément. Là où le béton est massif, coulé, monolithique, l'acier est linéaire, assemblé, réversible. Une charpente acier peut être démontée et remontée ailleurs. Une poutre IPE porte en elle la logique de la standardisation industrielle, une économie de matière poussée à son extrême.</p>
+
+    <p>Ce qui rend l'acier fascinant, c'est sa transformation au contact du temps et des agents atmosphériques. L'acier Corten — un acier à patine autoprotectrice — développe en quelques années une couche d'oxyde brun-rougeâtre qui le protège de la corrosion. Cette <strong>rouille contrôlée</strong> est une forme de dialogue avec le temps : le matériau change, s'adapte, se protège lui-même.</p>
+
+    <h3>La soudure comme écriture</h3>
+
+    <p>Dans les constructions en acier exposé, la soudure est visible. Elle n'est pas masquée sous des plaques de finition ou des enduits. Les cordons de soudure, les chanfreins, les boulons — tout devient signe de la façon dont les pièces ont été assemblées. Un bâtiment en acier apparenté est un texte : on peut le lire, comprendre sa logique constructive, voir où les forces passent.</p>
+
+    <div class="article-pullquote">
+      <p>« Nous ne cherchons pas à cacher comment les bâtiments sont construits. Nous cherchons à rendre cette construction lisible et belle. »</p>
+    </div>
+
+    <h2>Le bois : la mémoire du vivant</h2>
+
+    <p>Si le béton est la mémoire du chantier et l'acier la mémoire de l'industrie, le bois est la mémoire du vivant. Chaque cerne de croissance est une année de vie. La direction du fil, les noeuds, la largeur des cernes — tout cela raconte la vie de l'arbre : les années de sécheresse, les années d'abondance, l'orientation par rapport au soleil, la proximité des autres arbres.</p>
+
+    <p>Le bois massif, dans une charpente ou un plancher, porte cette histoire avec lui dans le bâtiment. Et il continue d'évoluer : il se dilate avec l'humidité, se rétracte avec la chaleur, prend la teinte du temps. Un plancher en chêne massif à 50 ans est plus beau qu'à l'état neuf — c'est une qualité rare dans notre époque de matériaux qui s'usent sans patiner.</p>
+
+    <img class="article-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85&fit=crop" alt="Structure bois architecture" />
+
+    <h2>Choisir les matériaux comme on choisit des mots</h2>
+
+    <p>Chez Aether Studio, la palette matérielle d'un projet est définie très tôt — souvent avant même les premières esquisses de plan. Non pas pour des raisons budgétaires (même si elles comptent), mais parce que les matériaux ne sont pas un revêtement : ils sont la substance du bâtiment.</p>
+
+    <p>Nous posons toujours la même question à nos clients : dans vingt ans, comment voulez-vous que ce bâtiment ait vieilli ? Voulez-vous qu'il paraisse neuf — ce qui est presque impossible à garantir — ou voulez-vous qu'il porte la trace de son histoire avec dignité ? La réponse oriente tout le reste : les choix de matériaux, les détails de mise en oeuvre, les tolérances d'exécution.</p>
+
+    <p>Un bâtiment qui accepte de vieillir est un bâtiment qui s'installe dans la durée. C'est, au fond, la définition même de l'architecture durable — non pas l'architecture qui consomme peu d'énergie (même si c'est essentiel), mais l'architecture qui mérite d'être conservée parce qu'elle est aimée.</p>
+
+    <div class="article-tags">
+      <span class="tag">Béton</span>
+      <span class="tag">Acier</span>
+      <span class="tag">Bois</span>
+      <span class="tag">Matériaux</span>
+      <span class="tag">Brutalisme</span>
+      <span class="tag">Patrimoine</span>
+    </div>
+  </div>
+</div>
+
+<div class="related">
+  <div class="related-title">Articles similaires</div>
+  <div class="related-grid">
+    <a href="article-logement-urbain.html" class="related-card">
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=85&fit=crop" alt="Logement urbain" />
+      <div class="related-body">
+        <div class="related-cat">Design urbain</div>
+        <div class="related-name">L'avenir du logement urbain : densité sans compromis</div>
+      </div>
+    </a>
+    <a href="article-design-biophilique.html" class="related-card">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=85&fit=crop" alt="Design biophilique" />
+      <div class="related-body">
+        <div class="related-cat">Durabilité</div>
+        <div class="related-name">Design biophilique : pourquoi la nature a sa place à l'intérieur</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Aether Studio</div>
+  <div class="footer-copy">© 2026 Aether Studio — Paris</div>
+</footer>
+
+</body>
+</html>
