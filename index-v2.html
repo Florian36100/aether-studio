@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Aether Studio — Architecture New York</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #E8F2FA;
+      --white:    #FFFFFF;
+      --dark:     #111827;
+      --dark2:    #1F2937;
+      --orange:   #D9632B;
+      --orange-h: #C2571F;
+      --orange-pale: rgba(217,99,43,0.10);
+      --muted:    #6B7280;
+      --muted2:   #9CA3AF;
+      --border:   rgba(0,0,0,0.08);
+      --ease:     cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ══════════ NAV ══════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; flex-shrink: 0;
+    }
+    .nav-logo-hex {
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-hex svg { width: 34px; height: 34px; }
+    .nav-logo-name {
+      font-size: 16px; font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center;
+      gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--dark); }
+
+    .btn-nav {
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      padding: 11px 22px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.25s var(--ease);
+      white-space: nowrap;
+    }
+    .btn-nav:hover { background: var(--orange-h); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,99,43,0.35); }
+    .btn-nav svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ══════════ HERO ══════════ */
+    .hero {
+      min-height: calc(100dvh - 64px);
+      padding: 60px 48px 56px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* LEFT */
+    .hero-left { display: flex; flex-direction: column; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange-pale);
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 12px; font-weight: 600;
+      color: var(--orange);
+      margin-bottom: 32px;
+      align-self: flex-start;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(52px, 6.5vw, 82px);
+      font-weight: 400;
+      color: var(--dark);
+      line-height: 1.0;
+      letter-spacing: -2.5px;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 15px; font-weight: 400;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 400px;
+      margin-bottom: 12px;
+    }
+
+    .hero-minimal {
+      font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--muted2);
+      margin-bottom: 36px;
+    }
+
+    .hero-ctas {
+      display: flex; align-items: center;
+      gap: 14px; margin-bottom: 56px;
+    }
+
+    .btn-hero-fill {
+      background: var(--orange);
+      color: var(--white);
+      border: none; border-radius: 100px;
+      padding: 14px 26px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 9px;
+      transition: all 0.25s var(--ease);
+      box-shadow: 0 4px 16px rgba(217,99,43,0.3);
+    }
+    .btn-hero-fill:hover { background: var(--orange-h); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,99,43,0.4); }
+    .btn-hero-fill svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .btn-hero-outline {
+      background: transparent;
+      color: var(--dark);
+      border: 1.5px solid rgba(0,0,0,0.18);
+      border-radius: 100px;
+      padding: 13px 26px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      text-decoration: none;
+      display: inline-flex; align-items: center;
+      transition: all 0.25s;
+    }
+    .btn-hero-outline:hover { border-color: var(--dark); background: rgba(0,0,0,0.03); }
+
+    /* Stats */
+    .hero-stats {
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 48px;
+    }
+    .stat-val {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 32px; font-weight: 400;
+      color: var(--dark);
+      line-height: 1;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+    .stat-val sup {
+      font-size: 18px; color: var(--orange);
+      vertical-align: super; font-family: 'Inter', sans-serif; font-weight: 700;
+    }
+    .stat-lbl {
+      font-size: 11.5px; font-weight: 500;
+      color: var(--muted2);
+    }
+
+    /* RIGHT */
+    .hero-right {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .hero-img-wrap {
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 4/4.8;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06);
+      position: relative;
+    }
+    .hero-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05);
+      min-width: 200px;
+    }
+    .badge-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .badge-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .badge-title { font-size: 14px; font-weight: 700; color: var(--dark); line-height: 1.2; }
+    .badge-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+    /* ══════════ SECTION BASE ══════════ */
+    .section-pad { padding: 100px 48px; }
+
+    .section-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 3px;
+      color: var(--orange);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::before { content: ''; width: 22px; height: 1.5px; background: var(--orange); }
+
+    .section-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 400;
+      color: var(--dark);
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+    .section-title em { font-style: italic; color: var(--orange); }
+
+    /* ══════════ PROJECTS ══════════ */
+    #projects { background: var(--white); }
+
+    .projects-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: end;
+      margin-bottom: 56px;
+    }
+    .projects-sub {
+      font-size: 15px; font-weight: 300;
+      color: var(--muted); line-height: 1.8;
+    }
+    .btn-all {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600;
+      color: var(--orange); text-decoration: none;
+      margin-top: 16px;
+      transition: gap 0.2s;
+    }
+    .btn-all:hover { gap: 12px; }
+    .btn-all svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      height: 620px;
+    }
+    .project-card {
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .project-card.main { grid-row: 1 / 3; }
+    .project-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s var(--ease);
+    }
+    .project-card:hover img { transform: scale(1.05); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(17,24,39,0.82) 0%, rgba(17,24,39,0.15) 50%, transparent 100%);
+    }
+    .project-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 22px 22px;
+    }
+    .project-cat {
+      font-size: 9.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--orange); margin-bottom: 6px;
+    }
+    .project-name {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 20px; color: var(--white);
+      letter-spacing: -0.3px; margin-bottom: 4px;
+    }
+    .project-card.main .project-name { font-size: 28px; }
+    .project-loc {
+      font-size: 12px; color: rgba(255,255,255,0.5);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .project-loc svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .project-hover-btn {
+      position: absolute; top: 16px; right: 16px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.8);
+      transition: all 0.25s var(--ease);
+    }
+    .project-hover-btn svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .project-card:hover .project-hover-btn { opacity: 1; transform: scale(1); }
+
+    /* ══════════ SERVICES ══════════ */
+    #services { background: var(--bg); }
+
+    .services-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 80px; align-items: start;
+    }
+    .services-sticky { position: sticky; top: 80px; }
+    .services-intro-sub {
+      font-size: 15px; font-weight: 300;
+      color: var(--muted); line-height: 1.8;
+      margin: 20px 0 32px;
+    }
+    .btn-services {
+      background: var(--dark);
+      color: var(--white);
+      border: none; border-radius: 100px;
+      padding: 13px 24px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.25s var(--ease);
+    }
+    .btn-services:hover { background: var(--dark2); transform: translateY(-1px); }
+    .btn-services svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .services-list { display: flex; flex-direction: column; }
+    .service-row {
+      display: grid;
+      grid-template-columns: 52px 1fr 28px;
+      gap: 18px; align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: default;
+      transition: all 0.2s;
+    }
+    .service-row:first-child { border-top: 1px solid var(--border); }
+    .service-row:hover .service-icon { background: var(--orange); }
+    .service-row:hover .service-icon svg { stroke: #fff; }
+    .service-row:hover .service-row-arrow svg { stroke: var(--orange); transform: translate(2px, -2px); }
+
+    .service-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.25s var(--ease);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .service-icon svg { width: 20px; height: 20px; stroke: var(--dark); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.25s; }
+
+    .service-body {}
+    .service-name { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 3px; letter-spacing: -0.2px; }
+    .service-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+    .service-row-arrow svg { width: 16px; height: 16px; stroke: var(--muted2); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: all 0.2s; }
+
+    /* ══════════ PHILOSOPHY ══════════ */
+    #philosophy {
+      background: var(--dark);
+      padding: 100px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .phil-quote {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(26px, 3.5vw, 44px);
+      font-weight: 400; font-style: italic;
+      color: var(--white);
+      line-height: 1.35; letter-spacing: -0.8px;
+    }
+    .phil-quote span { color: var(--orange); }
+
+    .phil-right {}
+    .phil-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 3px;
+      color: var(--orange); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .phil-label::before { content: ''; width: 20px; height: 1px; background: var(--orange); }
+    .phil-body {
+      font-size: 14px; font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.85; margin-bottom: 40px;
+    }
+    .phil-nums { display: flex; gap: 40px; }
+    .pnum-val {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 40px; font-weight: 400;
+      color: var(--white); line-height: 1;
+      letter-spacing: -1.5px; margin-bottom: 4px;
+    }
+    .pnum-val em { font-style: normal; color: var(--orange); font-size: 28px; }
+    .pnum-lbl { font-size: 11px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+
+    /* ══════════ CONTACT ══════════ */
+    #contact { background: var(--white); }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+    .contact-h {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 56px);
+      font-weight: 400; line-height: 1.05;
+      letter-spacing: -1.5px; margin-bottom: 18px;
+    }
+    .contact-h em { font-style: italic; color: var(--orange); }
+    .contact-sub {
+      font-size: 14px; font-weight: 300;
+      color: var(--muted); line-height: 1.8;
+      margin-bottom: 36px;
+    }
+    .contact-infos { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+    .contact-info-row {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .c-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--bg); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .c-icon svg { width: 16px; height: 16px; stroke: var(--orange); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .c-val { font-size: 14px; font-weight: 500; color: var(--dark); line-height: 1.3; }
+    .c-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    .form-input {
+      background: var(--bg);
+      border: 1.5px solid transparent; border-radius: 8px;
+      padding: 12px 14px; font-size: 14px;
+      font-family: inherit; color: var(--dark); outline: none;
+      transition: all 0.2s;
+    }
+    .form-input:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 3px rgba(217,99,43,0.08); }
+    .form-input::placeholder { color: var(--muted2); }
+    .form-select {
+      background: var(--bg);
+      border: 1.5px solid transparent; border-radius: 8px;
+      padding: 12px 14px; font-size: 14px;
+      font-family: inherit; color: var(--muted); outline: none;
+      cursor: pointer; appearance: none;
+      transition: border-color 0.2s;
+    }
+    .form-select:focus { border-color: var(--orange); }
+    .form-select option { background: #fff; color: var(--dark); }
+    .form-textarea {
+      background: var(--bg);
+      border: 1.5px solid transparent; border-radius: 8px;
+      padding: 12px 14px; font-size: 14px;
+      font-family: inherit; color: var(--dark); outline: none; resize: none;
+      min-height: 100px; line-height: 1.6;
+      transition: all 0.2s;
+    }
+    .form-textarea:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 3px rgba(217,99,43,0.08); }
+    .form-textarea::placeholder { color: var(--muted2); }
+
+    .btn-send {
+      background: var(--orange);
+      color: var(--white);
+      border: none; border-radius: 100px;
+      padding: 15px 28px; font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 4px 16px rgba(217,99,43,0.28);
+      margin-top: 6px;
+    }
+    .btn-send:hover { background: var(--orange-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,99,43,0.38); }
+    .btn-send svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .form-success { display: none; text-align: center; padding: 40px 0; }
+    .form-success.show { display: block; }
+    .form-success-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      font-size: 24px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .form-success h4 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--dark); margin-bottom: 8px; }
+    .form-success p { font-size: 14px; color: var(--muted); }
+
+    /* ══════════ FOOTER ══════════ */
+    footer {
+      background: var(--dark);
+      padding: 28px 48px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 16px; font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,0.2); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: rgba(255,255,255,0.5); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.12); }
+
+    /* ══════════ REVEAL ══════════ */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+
+    /* ══════════ TOAST ══════════ */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--dark); color: #fff;
+      padding: 12px 22px; border-radius: 100px;
+      font-size: 13px; font-weight: 600;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 999; transition: transform 0.4s var(--ease), opacity 0.4s;
+      opacity: 0; white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ══════════ RESPONSIVE ══════════ */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; padding: 48px 32px 56px; }
+      .hero-right { margin-top: 40px; }
+      .hero-img-wrap { aspect-ratio: 16/10; }
+      .hero-badge { left: 16px; bottom: -16px; }
+      .projects-header { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr 1fr; height: auto; }
+      .project-card.main { grid-row: auto; }
+      .project-card img { min-height: 280px; }
+      .services-layout { grid-template-columns: 1fr; gap: 48px; }
+      .services-sticky { position: relative; top: auto; }
+      #philosophy { grid-template-columns: 1fr; gap: 48px; }
+      .contact-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 40px 24px 48px; }
+      .section-pad { padding: 72px 24px; }
+      #philosophy { padding: 72px 24px; }
+      #contact { padding: 72px 24px; }
+      footer { padding: 24px; flex-direction: column; align-items: flex-start; gap: 14px; }
+      .projects-grid { grid-template-columns: 1fr; height: auto; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .phil-nums { flex-wrap: wrap; gap: 24px; }
+      .hero-stats { gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-hex">
+      <!-- Orange hexagon logo -->
+      <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="17,2 31,9.5 31,24.5 17,32 3,24.5 3,9.5" fill="#D9632B"/>
+        <path d="M11 17h12M17 11v12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-logo-name">Aether Studio</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#philosophy">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <a href="#contact" class="btn-nav">
+    Request a Quote
+    <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
+  </a>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      New York Based Architecture Studio
+    </div>
+
+    <h1>Redefining<br/>Spaces,<br/><em>Elevating</em><br/>Lifestyles</h1>
+
+    <p class="hero-sub">We craft visionary architectural experiences that harmonize form and function, shaping environments where people thrive.</p>
+    <p class="hero-minimal">Minimal. Modern. Meaningful.</p>
+
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-hero-fill">
+        Start Your Project
+        <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
+      </a>
+      <a href="#projects" class="btn-hero-outline">View Our Work</a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="stat-val">150<sup>+</sup></div>
+        <div class="stat-lbl">Projects Delivered</div>
+      </div>
+      <div>
+        <div class="stat-val">18</div>
+        <div class="stat-lbl">Years of Excellence</div>
+      </div>
+      <div>
+        <div class="stat-val">12</div>
+        <div class="stat-lbl">Design Awards</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <img
+        src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=85&fit=crop"
+        alt="Modern architecture by Aether Studio"
+      />
+      <div class="hero-badge">
+        <div class="badge-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div class="badge-title">Award Winning</div>
+          <div class="badge-sub">AIA Gold Medal 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ PROJECTS ══════════ -->
+<section id="projects" class="section-pad">
+  <div class="projects-header reveal">
+    <div>
+      <div class="section-label">Featured Work</div>
+      <h2 class="section-title">Buildings that<br/><em>define skylines</em></h2>
+    </div>
+    <div>
+      <p class="projects-sub">Three decades of reimagining the built environment — from private residences to civic landmarks across New York and beyond.</p>
+      <a href="#" class="btn-all">
+        View all projects
+        <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card main reveal">
+      <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=85&fit=crop" alt="Meridian Tower" />
+      <div class="project-overlay"></div>
+      <div class="project-hover-btn"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      <div class="project-info">
+        <div class="project-cat">Residential · Mixed-Use</div>
+        <div class="project-name">Meridian Tower</div>
+        <div class="project-loc">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Manhattan, New York
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=85&fit=crop" alt="Elara Cultural Center" />
+      <div class="project-overlay"></div>
+      <div class="project-hover-btn"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      <div class="project-info">
+        <div class="project-cat">Cultural · Civic</div>
+        <div class="project-name">Elara Cultural Center</div>
+        <div class="project-loc">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Brooklyn, New York
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=700&q=85&fit=crop" alt="Solara Residences" />
+      <div class="project-overlay"></div>
+      <div class="project-hover-btn"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      <div class="project-info">
+        <div class="project-cat">Residential · Luxury</div>
+        <div class="project-name">Solara Residences</div>
+        <div class="project-loc">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Tribeca, New York
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section id="services" class="section-pad">
+  <div class="services-layout">
+    <div class="services-sticky">
+      <div class="reveal">
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">End-to-end<br/><em>design mastery</em></h2>
+        <p class="services-intro-sub">From the first sketch to the final detail, we orchestrate every dimension of the architectural experience with precision and care.</p>
+        <a href="#contact" class="btn-services">
+          Work with us
+          <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="services-list">
+      <div class="service-row reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Architectural Design</div>
+          <div class="service-desc">Full-spectrum building design from concept through construction documentation, tailored to site, context, and client vision.</div>
+        </div>
+        <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      </div>
+
+      <div class="service-row reveal reveal-d1">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Interior Architecture</div>
+          <div class="service-desc">Spatial planning and interior design that extends the architectural logic inward — materials, light, and volume in harmony.</div>
+        </div>
+        <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      </div>
+
+      <div class="service-row reveal reveal-d2">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Urban Planning</div>
+          <div class="service-desc">Master planning and urban design strategies that shape neighborhoods with a long-term, human-centered perspective.</div>
+        </div>
+        <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      </div>
+
+      <div class="service-row reveal reveal-d3">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Sustainable Design</div>
+          <div class="service-desc">Passive systems, low-carbon materials, and biophilic design principles integrated from day one — not as an afterthought.</div>
+        </div>
+        <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PHILOSOPHY ══════════ -->
+<section id="philosophy">
+  <div class="reveal">
+    <p class="phil-quote">"Minimal. Modern. <span>Meaningful.</span> — Architecture is not about buildings. It is about the lives lived within them."</p>
+  </div>
+  <div class="reveal reveal-d1">
+    <div class="phil-label">Our Philosophy</div>
+    <p class="phil-body">We believe great architecture is the quiet confidence of a space that simply works — where every decision, from the placement of a window to the grain of a floor, serves the human experience. Beauty is not decoration. It is precision in its highest form.</p>
+    <div class="phil-nums">
+      <div>
+        <div class="pnum-val">84<em>+</em></div>
+        <div class="pnum-lbl">Projects built</div>
+      </div>
+      <div>
+        <div class="pnum-val">18<em>+</em></div>
+        <div class="pnum-lbl">Years of craft</div>
+      </div>
+      <div>
+        <div class="pnum-val">22<em>+</em></div>
+        <div class="pnum-lbl">Awards won</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="section-pad">
+  <div class="contact-layout">
+    <div class="reveal">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="contact-h">Let's build<br/>something<br/><em>remarkable</em></h2>
+      <p class="contact-sub">Tell us about your project — whether it's a private home, a civic building, or a mixed-use development, we'd love to hear your vision.</p>
+      <div class="contact-infos">
+        <div class="contact-info-row">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="c-val">180 Varick Street, Suite 500</div><div class="c-sub">New York, NY 10014</div></div>
+        </div>
+        <div class="contact-info-row">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 5.55 5.55l1.58-1.58a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div><div class="c-val">+1 (212) 555 0192</div><div class="c-sub">Mon–Fri, 9am–6pm EST</div></div>
+        </div>
+        <div class="contact-info-row">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><div class="c-val">studio@aetherstudio.com</div><div class="c-sub">We reply within 24 hours</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-d1">
+      <div class="contact-form" id="contact-form">
+        <div class="form-row-2">
+          <div class="form-field">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" id="f-fname" placeholder="James" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" id="f-lname" placeholder="Anderson" />
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" id="f-email" placeholder="james@example.com" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Phone</label>
+            <input class="form-input" type="tel" id="f-phone" placeholder="+1 (212) 000 0000" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Project Type</label>
+          <select class="form-select" id="f-type">
+            <option value="">Select a project type…</option>
+            <option>Private Residence</option>
+            <option>Commercial Building</option>
+            <option>Mixed-Use Development</option>
+            <option>Interior Architecture</option>
+            <option>Urban Planning</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Tell us about your project</label>
+          <textarea class="form-textarea" id="f-msg" placeholder="Location, scale, timeline, budget range…"></textarea>
+        </div>
+        <button class="btn-send" onclick="submitForm()">
+          Request a Quote
+          <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
+        </button>
+      </div>
+      <div class="form-success" id="form-success">
+        <div class="form-success-icon">✓</div>
+        <h4>Thank you!</h4>
+        <p>We've received your request and will be in touch within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-brand">Aether Studio</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Careers</a></li>
+    <li><a href="#">Press</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Aether Studio LLC — New York</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function submitForm() {
+  const fname = document.getElementById('f-fname').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const type  = document.getElementById('f-type').value;
+  if (!fname) { showToast('Please enter your name'); return; }
+  if (!email) { showToast('Please enter your email'); return; }
+  if (!type)  { showToast('Please select a project type'); return; }
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('form-success').classList.add('show');
+}
+</script>
+</body>
+</html>
