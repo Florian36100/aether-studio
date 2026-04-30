@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Meridian Tower — Aether Studio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #E8F2FA; --white: #FFFFFF; --dark: #111827; --dark2: #1F2937;
+      --orange: #D9632B; --orange-h: #C2571F; --orange-pale: rgba(217,99,43,0.10);
+      --muted: #6B7280; --muted2: #9CA3AF; --border: rgba(0,0,0,0.08);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+
+    /* NAV */
+    nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(0,0,0,0.04); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { width: 34px; height: 34px; }
+    .nav-logo-name { font-size: 16px; font-weight: 700; color: var(--dark); letter-spacing: -0.3px; }
+    .nav-back { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--dark); }
+    .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* HERO */
+    .proj-hero { position: relative; height: 80vh; min-height: 500px; overflow: hidden; }
+    .proj-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .proj-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(17,24,39,0.85) 0%, rgba(17,24,39,0.3) 50%, rgba(17,24,39,0.1) 100%); }
+    .proj-hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 56px 64px; }
+    .proj-cat-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: #fff; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; padding: 6px 16px; border-radius: 100px; margin-bottom: 18px; }
+    .proj-hero-title { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(40px, 6vw, 76px); font-weight: 400; color: #fff; line-height: 1.0; letter-spacing: -2px; margin-bottom: 12px; }
+    .proj-hero-loc { display: flex; align-items: center; gap: 6px; font-size: 14px; color: rgba(255,255,255,0.55); }
+    .proj-hero-loc svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* META BAR */
+    .meta-bar { background: var(--dark); display: grid; grid-template-columns: repeat(5, 1fr); }
+    .meta-item { padding: 22px 28px; border-right: 1px solid rgba(255,255,255,0.07); }
+    .meta-item:last-child { border-right: none; }
+    .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+    .meta-value { font-size: 15px; font-weight: 600; color: #fff; }
+
+    /* BODY LAYOUT */
+    .proj-body { display: grid; grid-template-columns: 1fr 340px; gap: 64px; max-width: 1280px; margin: 0 auto; padding: 80px 48px 100px; align-items: start; }
+    .proj-main {}
+    .proj-sidebar { position: sticky; top: 84px; }
+
+    /* MAIN CONTENT */
+    .proj-section { margin-bottom: 56px; }
+    .proj-section-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .proj-section-label::before { content: ''; width: 20px; height: 1.5px; background: var(--orange); }
+    .proj-section h2 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3.5vw, 40px); font-weight: 400; color: var(--dark); letter-spacing: -1px; margin-bottom: 20px; line-height: 1.1; }
+    .proj-section p { font-size: 15px; font-weight: 300; color: #374151; line-height: 1.9; margin-bottom: 18px; }
+    .proj-section p strong { font-weight: 600; color: var(--dark); }
+    .proj-section p em { font-style: italic; color: var(--orange); }
+
+    .proj-pullquote { border-left: 3px solid var(--orange); padding: 4px 0 4px 28px; margin: 40px 0; }
+    .proj-pullquote p { font-family: 'DM Serif Display', serif; font-size: clamp(18px, 2.5vw, 24px); font-style: italic; color: var(--dark); line-height: 1.4; margin: 0; }
+
+    /* GALLERY */
+    .gallery-grid { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: auto auto; gap: 12px; margin: 40px 0; }
+    .gallery-grid img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: block; }
+    .gallery-grid img:first-child { grid-row: 1 / 3; aspect-ratio: 3/4; }
+    .gallery-grid img:nth-child(2) { aspect-ratio: 4/3; }
+    .gallery-grid img:nth-child(3) { aspect-ratio: 4/3; }
+    .gallery-caption { font-size: 11px; color: var(--muted2); text-align: center; margin-top: -4px; margin-bottom: 16px; }
+
+    /* SIDEBAR */
+    .sidebar-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 28px; margin-bottom: 20px; }
+    .sidebar-card-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+    .spec-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .spec-key { font-size: 12px; font-weight: 400; color: var(--muted); }
+    .spec-val { font-size: 13px; font-weight: 600; color: var(--dark); text-align: right; }
+    .sidebar-tag-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .s-tag { background: var(--bg); border: 1px solid var(--border); color: var(--muted); font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 100px; }
+
+    .btn-devis { display: flex; align-items: center; justify-content: center; gap: 9px; background: var(--orange); color: #fff; border-radius: 100px; padding: 14px 22px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s var(--ease); box-shadow: 0 4px 16px rgba(217,99,43,0.28); margin-top: 20px; }
+    .btn-devis:hover { background: var(--orange-h); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,99,43,0.38); }
+    .btn-devis svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* TESTIMONY */
+    .proj-testimony { background: var(--dark); border-radius: 20px; padding: 40px; margin: 40px 0; }
+    .testimony-stars { display: flex; gap: 4px; margin-bottom: 18px; }
+    .testimony-stars svg { width: 14px; height: 14px; fill: var(--orange); }
+    .testimony-quote { font-family: 'DM Serif Display', serif; font-size: clamp(17px, 2vw, 22px); font-style: italic; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 24px; }
+    .testimony-author { display: flex; align-items: center; gap: 12px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; }
+    .testimony-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--orange-pale); border: 1.5px solid rgba(217,99,43,0.3); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
+    .testimony-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .testimony-role { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+    /* RELATED */
+    .related-projects { background: var(--white); padding: 80px 48px; }
+    .related-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--dark); letter-spacing: -0.5px; margin-bottom: 36px; }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .related-proj { border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; position: relative; display: block; aspect-ratio: 16/9; }
+    .related-proj img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s var(--ease); }
+    .related-proj:hover img { transform: scale(1.05); }
+    .related-proj-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(17,24,39,0.8) 0%, transparent 60%); }
+    .related-proj-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 20px; }
+    .related-proj-cat { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--orange); margin-bottom: 4px; }
+    .related-proj-name { font-family: 'DM Serif Display', serif; font-size: 17px; color: #fff; }
+
+    /* FOOTER */
+    footer { background: var(--dark); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer-brand { font-family: 'DM Serif Display', serif; font-size: 15px; color: rgba(255,255,255,0.35); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.12); }
+
+    @media (max-width: 1024px) {
+      .proj-body { grid-template-columns: 1fr; gap: 48px; padding: 56px 32px 80px; }
+      .proj-sidebar { position: relative; top: auto; }
+      .meta-bar { grid-template-columns: repeat(3, 1fr); }
+      .meta-item:nth-child(4) { border-right: 1px solid rgba(255,255,255,0.07); }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .proj-hero-content { padding: 32px 24px; }
+      .proj-body { padding: 40px 24px 72px; }
+      .meta-bar { grid-template-columns: 1fr 1fr; }
+      .meta-item { padding: 16px 20px; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-grid img:first-child { grid-row: auto; aspect-ratio: 16/10; }
+      .related-projects { padding: 56px 24px; }
+      .related-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index-v2.html" class="nav-logo">
+    <svg viewBox="0 0 34 34" fill="none"><polygon points="17,2 31,9.5 31,24.5 17,32 3,24.5 3,9.5" fill="#D9632B"/><path d="M11 17h12M17 11v12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="nav-logo-name">Aether Studio</span>
+  </a>
+  <a href="index-v2.html#projects" class="nav-back">
+    <svg viewBox="0 0 14 10"><path d="M13 5 H1 M6 1 l-5 4 5 4"/></svg>
+    Retour aux projets
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="proj-hero">
+  <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1800&q=90&fit=crop" alt="Meridian Tower" />
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-content">
+    <div class="proj-cat-pill">Résidentiel · Usage mixte</div>
+    <h1 class="proj-hero-title">Meridian Tower</h1>
+    <div class="proj-hero-loc">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Paris 8e, France
+    </div>
+  </div>
+</div>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <div class="meta-item"><div class="meta-label">Année</div><div class="meta-value">2023</div></div>
+  <div class="meta-item"><div class="meta-label">Surface</div><div class="meta-value">12 400 m²</div></div>
+  <div class="meta-item"><div class="meta-label">Programme</div><div class="meta-value">156 logements</div></div>
+  <div class="meta-item"><div class="meta-label">Client</div><div class="meta-value">Bouygues Immobilier</div></div>
+  <div class="meta-item"><div class="meta-label">Statut</div><div class="meta-value">Livré</div></div>
+</div>
+
+<!-- BODY -->
+<div class="proj-body">
+  <div class="proj-main">
+
+    <div class="proj-section">
+      <div class="proj-section-label">Vision du projet</div>
+      <h2>Une tour qui redéfinit<br/>l'idée du vivre ensemble</h2>
+      <p>La Meridian Tower s'impose dans le tissu du 8e arrondissement comme une réponse architecturale à l'un des défis majeurs de Paris : comment densifier la ville sans trahir son caractère ? Avec ses <strong>18 niveaux et 156 logements</strong> sur 12 400 m², cet immeuble à usage mixte ne cherche pas à dominer son environnement. Il cherche à s'y inscrire avec une précision chirurgicale.</p>
+      <p>Le programme allie des logements résidentiels de standing — du T2 au T5 duplex — à <strong>2 000 m² de commerces et services</strong> en rez-de-chaussée et aux premiers étages, créant une interface active avec la rue. Cette porosité entre le bâtiment et la ville est au cœur de notre approche.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=85&fit=crop" alt="Façade principale" />
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=85&fit=crop" alt="Vue depuis la rue" />
+      <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=700&q=85&fit=crop" alt="Intérieur appartement" />
+    </div>
+    <p class="gallery-caption">De gauche à droite : façade principale, vue depuis le boulevard, appartement type T4</p>
+
+    <div class="proj-section">
+      <div class="proj-section-label">Parti architectural</div>
+      <h2>La façade comme cinquième façade</h2>
+      <p>La façade est construite sur un principe de <em>strates horizontales</em> : chaque tranche de deux étages crée une unité lisible, légèrement décalée par rapport à la suivante. Ce jeu de porte-à-faux crée des ombres portées changeantes selon l'heure de la journée, animant la peau du bâtiment sans recourir à des ornements superflus.</p>
+      <p>Le matériau principal est une pierre calcaire locale de teinte dorée, dialoguant avec le patrimoine haussmannien du quartier. Les balcons filants, traités en acier thermolaqué sombre, introduisent une ligne de modernité franche sans rupture brutale. <strong>Chaque logement bénéficie d'un extérieur privatif</strong> — balcon, loggia ou terrasse selon les niveaux.</p>
+    </div>
+
+    <div class="proj-pullquote">
+      <p>« Construire haut à Paris, c'est assumer une responsabilité envers le paysage urbain. Chaque ligne, chaque matière est pensée pour que la tour ait sa place — ni effacée, ni arrogante. »</p>
+    </div>
+
+    <div class="proj-section">
+      <div class="proj-section-label">Développement durable</div>
+      <h2>Un immeuble bas carbone de bout en bout</h2>
+      <p>La Meridian Tower est certifiée <strong>HQE Exceptionnel</strong> et vise le label E+C- (Énergie Positive & Réduction Carbone). L'enveloppe thermique répond aux exigences RE2020 avec une consommation d'énergie primaire de 42 kWh/m²/an — soit 40% en dessous du seuil réglementaire.</p>
+      <p>Le système de ventilation double-flux avec récupération de chaleur, les panneaux photovoltaïques en toiture et la gestion intelligente des apports solaires via des brise-soleil orientables permettent à l'immeuble de produire une partie de sa propre énergie. La végétalisation des terrasses collectives au 9e et au 14e étage complète ce dispositif bioclimatique.</p>
+      <img src="https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1200&q=85&fit=crop" alt="Terrasse végétalisée" style="width:100%;border-radius:14px;margin:32px 0;aspect-ratio:16/7;object-fit:cover" />
+      <p>Les espaces communs — hall d'entrée, co-working partagé, salle de sport — ont été conçus pour encourager les usages collectifs et réduire la surface privative strictement nécessaire. <em>Moins de surface privatisée, plus de qualité partagée.</em></p>
+    </div>
+
+    <div class="proj-testimony">
+      <div class="testimony-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testimony-quote">« Aether Studio a su trouver l'équilibre parfait entre nos contraintes programmatiques et une ambition architecturale réelle. La Meridian Tower est aujourd'hui l'un de nos projets dont nous sommes le plus fiers. Elle s'est vendue à 97% avant même la fin du chantier. »</p>
+      <div class="testimony-author">
+        <div class="testimony-avatar">LB</div>
+        <div>
+          <div class="testimony-name">Laurent Bourgeois</div>
+          <div class="testimony-role">Directeur de programmes — Bouygues Immobilier Paris</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="proj-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Fiche technique</div>
+      <div class="spec-row"><span class="spec-key">Maître d'ouvrage</span><span class="spec-val">Bouygues Immobilier</span></div>
+      <div class="spec-row"><span class="spec-key">Localisation</span><span class="spec-val">Paris 8e</span></div>
+      <div class="spec-row"><span class="spec-key">SHON</span><span class="spec-val">12 400 m²</span></div>
+      <div class="spec-row"><span class="spec-key">Hauteur</span><span class="spec-val">58 m / 18 niveaux</span></div>
+      <div class="spec-row"><span class="spec-key">Logements</span><span class="spec-val">156 unités</span></div>
+      <div class="spec-row"><span class="spec-key">Commerces</span><span class="spec-val">2 000 m²</span></div>
+      <div class="spec-row"><span class="spec-key">Coût</span><span class="spec-val">€ 48 M HT</span></div>
+      <div class="spec-row"><span class="spec-key">Livraison</span><span class="spec-val">T3 2023</span></div>
+      <div class="spec-row"><span class="spec-key">Certification</span><span class="spec-val">HQE Exceptionnel · E+C-</span></div>
+      <div class="spec-row"><span class="spec-key">BET Structure</span><span class="spec-val">Setec Bâtiment</span></div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Typologies</div>
+      <div class="sidebar-tag-wrap">
+        <span class="s-tag">T2 — 34 unités</span>
+        <span class="s-tag">T3 — 56 unités</span>
+        <span class="s-tag">T4 — 48 unités</span>
+        <span class="s-tag">T5 duplex — 18 unités</span>
+        <span class="s-tag">Penthouse — 4 unités</span>
+        <span class="s-tag">Co-working</span>
+        <span class="s-tag">Salle de sport</span>
+        <span class="s-tag">Rooftop collectif</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Prix & distinctions</div>
+      <div class="spec-row"><span class="spec-key">2024</span><span class="spec-val">Équerre d'Argent</span></div>
+      <div class="spec-row"><span class="spec-key">2023</span><span class="spec-val">Prix AMO — Logement durable</span></div>
+      <div class="spec-row"><span class="spec-key">2023</span><span class="spec-val">Trophées SIMI — Résidentiel</span></div>
+    </div>
+
+    <a href="index-v2.html#contact" class="btn-devis">
+      Discuter d'un projet similaire
+      <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- RELATED -->
+<div class="related-projects">
+  <div class="related-title">Autres réalisations</div>
+  <div class="related-grid">
+    <a href="projet-elara-cultural-center.html" class="related-proj">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=85&fit=crop" alt="Elara Cultural Center" />
+      <div class="related-proj-overlay"></div>
+      <div class="related-proj-info">
+        <div class="related-proj-cat">Culturel · Civique</div>
+        <div class="related-proj-name">Elara Cultural Center — Lyon</div>
+      </div>
+    </a>
+    <a href="projet-solara-residences.html" class="related-proj">
+      <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&q=85&fit=crop" alt="Solara Residences" />
+      <div class="related-proj-overlay"></div>
+      <div class="related-proj-info">
+        <div class="related-proj-cat">Résidentiel · Prestige</div>
+        <div class="related-proj-name">Solara Residences — Bordeaux</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Aether Studio</div>
+  <div class="footer-copy">© 2026 Aether Studio — Paris</div>
+</footer>
+
+</body>
+</html>
