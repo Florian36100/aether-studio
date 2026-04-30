@@ -86,6 +86,17 @@
     .footer-copy { font-size: 11px; color: rgba(255,255,255,0.12); }
     @media (max-width: 1024px) { .proj-body { grid-template-columns: 1fr; gap: 48px; padding: 56px 32px 80px; } .proj-sidebar { position: relative; top: auto; } .meta-bar { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 768px) { nav { padding: 0 24px; } .proj-hero-content { padding: 32px 24px; } .proj-body { padding: 40px 24px 72px; } .meta-bar { grid-template-columns: 1fr 1fr; } .meta-item { padding: 16px 20px; } .gallery-grid { grid-template-columns: 1fr; } .gallery-grid img:first-child { grid-row: auto; aspect-ratio: 16/10; } .related-projects { padding: 56px 24px; } .related-grid { grid-template-columns: 1fr; } footer { padding: 20px 24px; flex-direction: column; align-items: flex-start; } }
+
+    /* ── NAV TOGGLES ── */
+    .nav-toggles { display: flex; align-items: center; gap: 6px; }
+    .nav-toggle { background: none; border: 1.5px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11.5px; font-weight: 700; color: var(--muted); cursor: pointer; font-family: inherit; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; line-height: 1; }
+    .nav-toggle:hover { color: var(--dark); border-color: var(--dark); }
+    #dark-btn { width: 34px; height: 34px; padding: 0; }
+    #dark-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+    /* ── DARK MODE ── */
+    body.dark { --bg: #0D1117; --white: #161B22; --dark: #E6EDF3; --dark2: #21262D; --muted: #8B949E; --muted2: #6E7681; --border: rgba(255,255,255,0.08); }
+    body.dark nav { background: #161B22; box-shadow: 0 1px 8px rgba(0,0,0,0.3); }
+    body.dark footer { background: #090C12; }
   </style>
 </head>
 <body>
@@ -99,6 +110,12 @@
     <svg viewBox="0 0 14 10"><path d="M13 5 H1 M6 1 l-5 4 5 4"/></svg>
     Retour aux projets
   </a>
+  <div class="nav-toggles">
+    <button class="nav-toggle" id="dark-btn" onclick="toggleDark()" aria-label="Mode sombre">
+      <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="nav-toggle" id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
 </nav>
 
 <div class="proj-hero">
