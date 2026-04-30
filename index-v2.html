@@ -863,6 +863,76 @@
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
       .footer-legal { flex-wrap: wrap; gap: 12px; }
     }
+
+    /* ══════════ NAV TOGGLES ══════════ */
+    .nav-toggles { display: flex; align-items: center; gap: 6px; }
+    .nav-toggle {
+      background: none; border: 1.5px solid var(--border);
+      border-radius: 8px; padding: 6px 10px;
+      font-size: 11.5px; font-weight: 700; color: var(--muted);
+      cursor: pointer; font-family: inherit; letter-spacing: 0.5px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: all 0.2s; line-height: 1;
+    }
+    .nav-toggle:hover { color: var(--dark); border-color: var(--dark); }
+    #dark-btn { width: 34px; height: 34px; padding: 0; }
+    #dark-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+    @media (max-width: 768px) { .nav-toggles { gap: 4px; } }
+
+    /* ══════════ DARK MODE ══════════ */
+    body.dark {
+      --bg:     #0D1117;
+      --white:  #161B22;
+      --dark:   #E6EDF3;
+      --dark2:  #21262D;
+      --muted:  #8B949E;
+      --muted2: #6E7681;
+      --border: rgba(255,255,255,0.08);
+    }
+    /* Sections that use --dark as bg must stay dark */
+    body.dark #philosophy   { background: #090C12; }
+    body.dark #testimonials { background: #090C12; }
+    body.dark footer        { background: #090C12; }
+    body.dark .mobile-overlay { background: #0D1117; }
+
+    /* Buttons that use --dark as bg */
+    body.dark .btn-services       { background: #21262D; color: var(--dark); }
+    body.dark .btn-services:hover { background: #2D333B; }
+    body.dark .btn-top  { background: #21262D; border-color: rgba(255,255,255,0.12); }
+    body.dark .toast    { background: #21262D; color: #E6EDF3; }
+
+    /* Outline button */
+    body.dark .btn-hero-outline { border-color: rgba(255,255,255,0.2); }
+
+    /* Form elements */
+    body.dark .form-input,
+    body.dark .form-select,
+    body.dark .form-textarea { background: #21262D; border-color: rgba(255,255,255,0.1); color: #E6EDF3; }
+    body.dark .form-input::placeholder,
+    body.dark .form-textarea::placeholder { color: #6E7681; }
+    body.dark .form-select option { background: #21262D; color: #E6EDF3; }
+    body.dark .form-input:focus,
+    body.dark .form-select:focus,
+    body.dark .form-textarea:focus { background: #21262D; box-shadow: 0 0 0 3px rgba(217,99,43,0.14); }
+
+    /* Logos */
+    body.dark .logos-strip  { background: #161B22; border-color: rgba(255,255,255,0.06); }
+    body.dark .logo-item    { color: #6E7681; }
+    body.dark .logo-item:hover { color: #E6EDF3; }
+    body.dark .logos-label  { color: rgba(230,237,243,0.3); }
+    body.dark .logos-sep    { background: rgba(255,255,255,0.08); }
+
+    /* Cards */
+    body.dark .team-card   { border-color: rgba(255,255,255,0.06); }
+    body.dark .award-card  { border-color: rgba(255,255,255,0.06); }
+    body.dark .blog-card   { border-color: rgba(255,255,255,0.06); }
+    body.dark .blog-cat-pill { background: #21262D; }
+    body.dark .blog-arrow  { background: #21262D; }
+    body.dark .service-icon { background: #21262D; border-color: rgba(255,255,255,0.1); }
+    body.dark .process-num  { background: #21262D; border-color: rgba(255,255,255,0.1); }
+
+    /* Nav */
+    body.dark nav { box-shadow: 0 1px 8px rgba(0,0,0,0.3); }
   </style>
 </head>
 <body>
@@ -881,15 +951,22 @@
   </a>
 
   <ul class="nav-links">
-    <li><a href="projets.html">Projets</a></li>
+    <li><a href="projets.html" data-i18n="nav-projects">Projets</a></li>
     <li><a href="#services">Services</a></li>
-    <li><a href="studio.html">Notre studio</a></li>
+    <li><a href="studio.html" data-i18n="nav-studio">Notre studio</a></li>
     <li><a href="#blog">Blog</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 
+  <div class="nav-toggles">
+    <button class="nav-toggle" id="dark-btn" onclick="toggleDark()" aria-label="Mode sombre">
+      <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="nav-toggle" id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+
   <a href="#contact" class="btn-nav">
-    Demander un devis
+    <span data-i18n="nav-cta">Demander un devis</span>
     <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
   </a>
   <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
@@ -909,15 +986,15 @@
     </button>
   </div>
   <ul class="mobile-nav-links">
-    <li><a href="projets.html" onclick="toggleMobileNav()">Projets</a></li>
+    <li><a href="projets.html" onclick="toggleMobileNav()" data-i18n="nav-projects">Projets</a></li>
     <li><a href="#services" onclick="toggleMobileNav()">Services</a></li>
-    <li><a href="studio.html" onclick="toggleMobileNav()">Notre studio</a></li>
+    <li><a href="studio.html" onclick="toggleMobileNav()" data-i18n="nav-studio">Notre studio</a></li>
     <li><a href="#blog" onclick="toggleMobileNav()">Blog</a></li>
     <li><a href="#contact" onclick="toggleMobileNav()">Contact</a></li>
   </ul>
   <div class="mobile-nav-cta">
     <a href="#contact" class="btn-hero-fill" onclick="toggleMobileNav()">
-      Démarrer votre projet
+      <span data-i18n="mobile-cta">Démarrer votre projet</span>
       <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
     </a>
   </div>
@@ -930,34 +1007,34 @@
   <div class="hero-left">
     <div class="hero-tag">
       <div class="hero-tag-dot"></div>
-      Cabinet d'architecture basé à Paris
+      <span data-i18n="hero-tag">Cabinet d'architecture basé à Paris</span>
     </div>
 
-    <h1>Redéfinir<br/>les espaces,<br/><em>Sublimer</em><br/>les modes de vie</h1>
+    <h1 data-i18n-html="hero-h1">Redéfinir<br/>les espaces,<br/><em>Sublimer</em><br/>les modes de vie</h1>
 
-    <p class="hero-sub">Nous créons des expériences architecturales visionnaires qui harmonisent forme et fonction, façonnant des espaces où il fait bon vivre.</p>
-    <p class="hero-minimal">Minimal. Moderne. Authentique.</p>
+    <p class="hero-sub" data-i18n="hero-sub">Nous créons des expériences architecturales visionnaires qui harmonisent forme et fonction, façonnant des espaces où il fait bon vivre.</p>
+    <p class="hero-minimal" data-i18n="hero-minimal">Minimal. Moderne. Authentique.</p>
 
     <div class="hero-ctas">
       <a href="#contact" class="btn-hero-fill">
-        Démarrer votre projet
+        <span data-i18n="hero-btn1">Démarrer votre projet</span>
         <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
       </a>
-      <a href="#projects" class="btn-hero-outline">Voir nos réalisations</a>
+      <a href="#projects" class="btn-hero-outline" data-i18n="hero-btn2">Voir nos réalisations</a>
     </div>
 
     <div class="hero-stats">
       <div>
         <div class="stat-val">150<sup>+</sup></div>
-        <div class="stat-lbl">Projets livrés</div>
+        <div class="stat-lbl" data-i18n="stat1-lbl">Projets livrés</div>
       </div>
       <div>
         <div class="stat-val">18</div>
-        <div class="stat-lbl">Années d'excellence</div>
+        <div class="stat-lbl" data-i18n="stat2-lbl">Années d'excellence</div>
       </div>
       <div>
         <div class="stat-val">12</div>
-        <div class="stat-lbl">Prix de design</div>
+        <div class="stat-lbl" data-i18n="stat3-lbl">Prix de design</div>
       </div>
     </div>
   </div>
@@ -974,8 +1051,8 @@
           <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div>
-          <div class="badge-title">Primé</div>
-          <div class="badge-sub">Médaille d'or AIA 2024</div>
+          <div class="badge-title" data-i18n="badge-title">Primé</div>
+          <div class="badge-sub" data-i18n="badge-sub">Médaille d'or AIA 2024</div>
         </div>
       </div>
     </div>
@@ -985,7 +1062,7 @@
 
 <!-- ══════════ LOGOS ══════════ -->
 <div class="logos-strip">
-  <span class="logos-label">Ils nous font confiance</span>
+  <span class="logos-label" data-i18n="logos-label">Ils nous font confiance</span>
   <div class="logos-sep"></div>
   <div class="logos-track">
     <span class="logo-item">Bouygues Immobilier</span>
@@ -1002,13 +1079,13 @@
 <section id="projects" class="section-pad">
   <div class="projects-header reveal">
     <div>
-      <div class="section-label">Nos réalisations</div>
-      <h2 class="section-title">Des bâtiments qui<br/><em>façonnent les horizons</em></h2>
+      <div class="section-label" data-i18n="proj-label">Nos réalisations</div>
+      <h2 class="section-title" data-i18n-html="proj-title">Des bâtiments qui<br/><em>façonnent les horizons</em></h2>
     </div>
     <div>
-      <p class="projects-sub">Trois décennies à réinventer l'environnement bâti — des résidences privées aux monuments civiques, à Paris et au-delà.</p>
+      <p class="projects-sub" data-i18n="proj-sub">Trois décennies à réinventer l'environnement bâti — des résidences privées aux monuments civiques, à Paris et au-delà.</p>
       <a href="projets.html" class="btn-all">
-        Voir tous les projets
+        <span data-i18n="proj-all">Voir tous les projets</span>
         <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
       </a>
     </div>
@@ -1020,7 +1097,7 @@
       <div class="project-overlay"></div>
       <div class="project-hover-btn"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       <div class="project-info">
-        <div class="project-cat">Résidentiel · Usage mixte</div>
+        <div class="project-cat" data-i18n="proj-cat1">Résidentiel · Usage mixte</div>
         <div class="project-name">Meridian Tower</div>
         <div class="project-loc">
           <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1034,7 +1111,7 @@
       <div class="project-overlay"></div>
       <div class="project-hover-btn"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       <div class="project-info">
-        <div class="project-cat">Culturel · Civique</div>
+        <div class="project-cat" data-i18n="proj-cat2">Culturel · Civique</div>
         <div class="project-name">Elara Cultural Center</div>
         <div class="project-loc">
           <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1048,7 +1125,7 @@
       <div class="project-overlay"></div>
       <div class="project-hover-btn"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       <div class="project-info">
-        <div class="project-cat">Résidentiel · Prestige</div>
+        <div class="project-cat" data-i18n="proj-cat3">Résidentiel · Prestige</div>
         <div class="project-name">Solara Residences</div>
         <div class="project-loc">
           <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1064,11 +1141,11 @@
   <div class="services-layout">
     <div class="services-sticky">
       <div class="reveal">
-        <div class="section-label">Ce que nous faisons</div>
-        <h2 class="section-title">Maîtrise totale<br/><em>du projet</em></h2>
-        <p class="services-intro-sub">Du premier croquis au dernier détail, nous orchestrons chaque dimension de l'expérience architecturale avec précision et soin.</p>
+        <div class="section-label" data-i18n="svc-label">Ce que nous faisons</div>
+        <h2 class="section-title" data-i18n-html="svc-title">Maîtrise totale<br/><em>du projet</em></h2>
+        <p class="services-intro-sub" data-i18n="svc-intro">Du premier croquis au dernier détail, nous orchestrons chaque dimension de l'expérience architecturale avec précision et soin.</p>
         <a href="#contact" class="btn-services">
-          Travailler avec nous
+          <span data-i18n="svc-cta">Travailler avec nous</span>
           <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
         </a>
       </div>
@@ -1080,8 +1157,8 @@
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
         <div class="service-body">
-          <div class="service-name">Architecture</div>
-          <div class="service-desc">Conception architecturale complète du concept jusqu'à la documentation de chantier, adaptée au site, au contexte et à la vision du client.</div>
+          <div class="service-name" data-i18n="svc1-name">Architecture</div>
+          <div class="service-desc" data-i18n="svc1-desc">Conception architecturale complète du concept jusqu'à la documentation de chantier, adaptée au site, au contexte et à la vision du client.</div>
         </div>
         <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       </a>
@@ -1091,8 +1168,8 @@
           <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div class="service-body">
-          <div class="service-name">Architecture intérieure</div>
-          <div class="service-desc">Aménagement spatial et design intérieur prolongeant la logique architecturale — matériaux, lumière et volumes en harmonie.</div>
+          <div class="service-name" data-i18n="svc2-name">Architecture intérieure</div>
+          <div class="service-desc" data-i18n="svc2-desc">Aménagement spatial et design intérieur prolongeant la logique architecturale — matériaux, lumière et volumes en harmonie.</div>
         </div>
         <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       </a>
@@ -1102,8 +1179,8 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <div class="service-body">
-          <div class="service-name">Urbanisme</div>
-          <div class="service-desc">Stratégies de planification urbaine façonnant les quartiers avec une vision à long terme centrée sur l'humain.</div>
+          <div class="service-name" data-i18n="svc3-name">Urbanisme</div>
+          <div class="service-desc" data-i18n="svc3-desc">Stratégies de planification urbaine façonnant les quartiers avec une vision à long terme centrée sur l'humain.</div>
         </div>
         <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       </a>
@@ -1113,8 +1190,8 @@
           <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
         </div>
         <div class="service-body">
-          <div class="service-name">Design durable</div>
-          <div class="service-desc">Systèmes passifs, matériaux bas carbone et principes biophiliques intégrés dès la conception — pas en option.</div>
+          <div class="service-name" data-i18n="svc4-name">Design durable</div>
+          <div class="service-desc" data-i18n="svc4-desc">Systèmes passifs, matériaux bas carbone et principes biophiliques intégrés dès la conception — pas en option.</div>
         </div>
         <div class="service-row-arrow"><svg viewBox="0 0 14 14"><path d="M2 12 L12 2 M4 2 h8 v8"/></svg></div>
       </a>
@@ -1125,29 +1202,29 @@
 <!-- ══════════ PROCESS ══════════ -->
 <section id="process" class="section-pad">
   <div class="process-header reveal">
-    <div class="section-label">Notre méthode</div>
-    <h2 class="section-title">Un processus éprouvé,<br/><em>des résultats constants</em></h2>
+    <div class="section-label" data-i18n="proc-label">Notre méthode</div>
+    <h2 class="section-title" data-i18n-html="proc-title">Un processus éprouvé,<br/><em>des résultats constants</em></h2>
   </div>
   <div class="process-grid">
     <div class="process-step reveal">
       <div class="process-num">01</div>
-      <div class="process-step-name">Écoute & Brief</div>
-      <div class="process-step-desc">Chaque projet commence par une immersion complète dans votre vision, vos contraintes et vos aspirations. Pas de solution préconçue — une écoute totale.</div>
+      <div class="process-step-name" data-i18n="proc1-name">Écoute & Brief</div>
+      <div class="process-step-desc" data-i18n="proc1-desc">Chaque projet commence par une immersion complète dans votre vision, vos contraintes et vos aspirations. Pas de solution préconçue — une écoute totale.</div>
     </div>
     <div class="process-step reveal reveal-d1">
       <div class="process-num">02</div>
-      <div class="process-step-name">Concept & Esquisse</div>
-      <div class="process-step-desc">Nous développons plusieurs pistes conceptuelles, traduites en esquisses et maquettes volumétriques. Vous choisissez la direction, nous l'affinons ensemble.</div>
+      <div class="process-step-name" data-i18n="proc2-name">Concept & Esquisse</div>
+      <div class="process-step-desc" data-i18n="proc2-desc">Nous développons plusieurs pistes conceptuelles, traduites en esquisses et maquettes volumétriques. Vous choisissez la direction, nous l'affinons ensemble.</div>
     </div>
     <div class="process-step reveal reveal-d2">
       <div class="process-num">03</div>
-      <div class="process-step-name">Développement</div>
-      <div class="process-step-desc">Plans d'exécution, détails de construction, choix des matériaux et coordination des corps de métier — nous gérons chaque dimension technique avec rigueur.</div>
+      <div class="process-step-name" data-i18n="proc3-name">Développement</div>
+      <div class="process-step-desc" data-i18n="proc3-desc">Plans d'exécution, détails de construction, choix des matériaux et coordination des corps de métier — nous gérons chaque dimension technique avec rigueur.</div>
     </div>
     <div class="process-step reveal reveal-d3">
       <div class="process-num">04</div>
-      <div class="process-step-name">Livraison & Suivi</div>
-      <div class="process-step-desc">Suivi de chantier rigoureux, réception des travaux et accompagnement post-livraison. Votre satisfaction est notre engagement jusqu'au bout.</div>
+      <div class="process-step-name" data-i18n="proc4-name">Livraison & Suivi</div>
+      <div class="process-step-desc" data-i18n="proc4-desc">Suivi de chantier rigoureux, réception des travaux et accompagnement post-livraison. Votre satisfaction est notre engagement jusqu'au bout.</div>
     </div>
   </div>
 </section>
@@ -1155,23 +1232,23 @@
 <!-- ══════════ PHILOSOPHY ══════════ -->
 <section id="philosophy">
   <div class="reveal">
-    <p class="phil-quote">« Minimal. Moderne. <span>Authentique.</span> — L'architecture ne parle pas de bâtiments. Elle parle des vies qui s'y déroulent. »</p>
+    <p class="phil-quote" data-i18n-html="phil-quote">« Minimal. Moderne. <span>Authentique.</span> — L'architecture ne parle pas de bâtiments. Elle parle des vies qui s'y déroulent. »</p>
   </div>
   <div class="reveal reveal-d1">
-    <div class="phil-label">Notre philosophie</div>
-    <p class="phil-body">Nous croyons que la grande architecture, c'est la confiance tranquille d'un espace qui fonctionne — où chaque décision, du placement d'une fenêtre au grain d'un parquet, sert l'expérience humaine. La beauté n'est pas décoration. C'est la précision à son plus haut degré.</p>
+    <div class="phil-label" data-i18n="phil-label">Notre philosophie</div>
+    <p class="phil-body" data-i18n="phil-body">Nous croyons que la grande architecture, c'est la confiance tranquille d'un espace qui fonctionne — où chaque décision, du placement d'une fenêtre au grain d'un parquet, sert l'expérience humaine. La beauté n'est pas décoration. C'est la précision à son plus haut degré.</p>
     <div class="phil-nums">
       <div>
         <div class="pnum-val">84<em>+</em></div>
-        <div class="pnum-lbl">Projets livrés</div>
+        <div class="pnum-lbl" data-i18n="pnum1-lbl">Projets livrés</div>
       </div>
       <div>
         <div class="pnum-val">18<em>+</em></div>
-        <div class="pnum-lbl">Années d'expertise</div>
+        <div class="pnum-lbl" data-i18n="pnum2-lbl">Années d'expertise</div>
       </div>
       <div>
         <div class="pnum-val">22<em>+</em></div>
-        <div class="pnum-lbl">Prix remportés</div>
+        <div class="pnum-lbl" data-i18n="pnum3-lbl">Prix remportés</div>
       </div>
     </div>
   </div>
@@ -1181,54 +1258,54 @@
 <section id="team" class="section-pad">
   <div class="team-header">
     <div class="reveal">
-      <div class="section-label">L'équipe</div>
-      <h2 class="section-title">Des architectes<br/><em>passionnés</em></h2>
+      <div class="section-label" data-i18n="team-label">L'équipe</div>
+      <h2 class="section-title" data-i18n-html="team-title">Des architectes<br/><em>passionnés</em></h2>
     </div>
-    <p class="team-sub reveal reveal-d1">Une équipe pluridisciplinaire de 24 architectes, designers et urbanistes, réunis autour d'une conviction partagée : l'excellence n'est pas une option.</p>
+    <p class="team-sub reveal reveal-d1" data-i18n="team-sub">Une équipe pluridisciplinaire de 24 architectes, designers et urbanistes, réunis autour d'une conviction partagée : l'excellence n'est pas une option.</p>
   </div>
   <div class="team-grid">
     <div class="team-card reveal">
       <div class="team-photo-wrap">
         <img class="team-photo" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=85&fit=crop" alt="Marc Delacroix" />
-        <div class="team-role-badge">Fondateur</div>
+        <div class="team-role-badge" data-i18n="t1-badge">Fondateur</div>
       </div>
       <div class="team-body">
         <div class="team-name">Marc Delacroix</div>
-        <div class="team-title">Architecte principal</div>
-        <div class="team-desc">30 ans d'expérience. Ancien élève de l'ENSA Paris-Belleville. Lauréat du Grand Prix de l'Architecture 2022.</div>
+        <div class="team-title" data-i18n="t1-title">Architecte principal</div>
+        <div class="team-desc" data-i18n="t1-desc">30 ans d'expérience. Ancien élève de l'ENSA Paris-Belleville. Lauréat du Grand Prix de l'Architecture 2022.</div>
       </div>
     </div>
     <div class="team-card reveal reveal-d1">
       <div class="team-photo-wrap">
         <img class="team-photo" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=85&fit=crop" alt="Sophie Blanc" />
-        <div class="team-role-badge">Direction</div>
+        <div class="team-role-badge" data-i18n="t2-badge">Direction</div>
       </div>
       <div class="team-body">
         <div class="team-name">Sophie Blanc</div>
-        <div class="team-title">Directrice des projets</div>
-        <div class="team-desc">Spécialiste en architecture durable. Ancienne chef de projet chez Renzo Piano Building Workshop, Milan.</div>
+        <div class="team-title" data-i18n="t2-title">Directrice des projets</div>
+        <div class="team-desc" data-i18n="t2-desc">Spécialiste en architecture durable. Ancienne chef de projet chez Renzo Piano Building Workshop, Milan.</div>
       </div>
     </div>
     <div class="team-card reveal reveal-d2">
       <div class="team-photo-wrap">
         <img class="team-photo" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&q=85&fit=crop" alt="Thomas Renard" />
-        <div class="team-role-badge">Architecture</div>
+        <div class="team-role-badge" data-i18n="t3-badge">Architecture</div>
       </div>
       <div class="team-body">
         <div class="team-name">Thomas Renard</div>
-        <div class="team-title">Architecte senior</div>
-        <div class="team-desc">Expert en structure et enveloppe. Pilote nos projets de grande envergure en France et en Europe depuis 12 ans.</div>
+        <div class="team-title" data-i18n="t3-title">Architecte senior</div>
+        <div class="team-desc" data-i18n="t3-desc">Expert en structure et enveloppe. Pilote nos projets de grande envergure en France et en Europe depuis 12 ans.</div>
       </div>
     </div>
     <div class="team-card reveal reveal-d3">
       <div class="team-photo-wrap">
         <img class="team-photo" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&q=85&fit=crop" alt="Camille Laurent" />
-        <div class="team-role-badge">Intérieur</div>
+        <div class="team-role-badge" data-i18n="t4-badge">Intérieur</div>
       </div>
       <div class="team-body">
         <div class="team-name">Camille Laurent</div>
-        <div class="team-title">Design intérieur</div>
-        <div class="team-desc">Maîtrise l'art de la lumière et des matières. Diplômée de l'École Camondo, Paris. Référence en design biophilique.</div>
+        <div class="team-title" data-i18n="t4-title">Design intérieur</div>
+        <div class="team-desc" data-i18n="t4-desc">Maîtrise l'art de la lumière et des matières. Diplômée de l'École Camondo, Paris. Référence en design biophilique.</div>
       </div>
     </div>
   </div>
@@ -1237,24 +1314,24 @@
 <!-- ══════════ AWARDS ══════════ -->
 <section id="awards" class="section-pad">
   <div class="reveal">
-    <div class="section-label">Reconnaissances</div>
-    <h2 class="section-title">Prix & <em>distinctions</em></h2>
+    <div class="section-label" data-i18n="awd-label">Reconnaissances</div>
+    <h2 class="section-title" data-i18n-html="awd-title">Prix & <em>distinctions</em></h2>
   </div>
   <div class="awards-grid">
     <div class="award-card reveal">
       <div class="award-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
       <div>
         <div class="award-year">2024</div>
-        <div class="award-name">Équerre d'Argent</div>
-        <div class="award-org">Le Moniteur — Catégorie Logement collectif</div>
+        <div class="award-name" data-i18n="awd1-name">Équerre d'Argent</div>
+        <div class="award-org" data-i18n="awd1-org">Le Moniteur — Catégorie Logement collectif</div>
       </div>
     </div>
     <div class="award-card reveal reveal-d1">
       <div class="award-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
       <div>
         <div class="award-year">2023</div>
-        <div class="award-name">Prix AMO Architecture</div>
-        <div class="award-org">Association des Maîtres d'Ouvrage — Bâtiment durable</div>
+        <div class="award-name" data-i18n="awd2-name">Prix AMO Architecture</div>
+        <div class="award-org" data-i18n="awd2-org">Association des Maîtres d'Ouvrage — Bâtiment durable</div>
       </div>
     </div>
     <div class="award-card reveal reveal-d2">
@@ -1262,7 +1339,7 @@
       <div>
         <div class="award-year">2022</div>
         <div class="award-name">Grand Prix Architecture</div>
-        <div class="award-org">Académie d'Architecture de France</div>
+        <div class="award-org" data-i18n="awd3-org">Académie d'Architecture de France</div>
       </div>
     </div>
     <div class="award-card reveal reveal-d1">
@@ -1270,15 +1347,15 @@
       <div>
         <div class="award-year">2021</div>
         <div class="award-name">Red Dot Award</div>
-        <div class="award-org">Red Dot Design Award — Architecture & Design d'espace</div>
+        <div class="award-org" data-i18n="awd4-org">Red Dot Design Award — Architecture & Design d'espace</div>
       </div>
     </div>
     <div class="award-card reveal reveal-d2">
       <div class="award-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
       <div>
         <div class="award-year">2020</div>
-        <div class="award-name">Prix Paysages de Reconquête</div>
-        <div class="award-org">Ministère de la Culture — Urbanisme & espaces publics</div>
+        <div class="award-name" data-i18n="awd5-name">Prix Paysages de Reconquête</div>
+        <div class="award-org" data-i18n="awd5-org">Ministère de la Culture — Urbanisme & espaces publics</div>
       </div>
     </div>
     <div class="award-card reveal reveal-d3">
@@ -1286,7 +1363,7 @@
       <div>
         <div class="award-year">2019</div>
         <div class="award-name">Trophées SIMI</div>
-        <div class="award-org">SIMI Paris — Meilleur projet immobilier tertiaire</div>
+        <div class="award-org" data-i18n="awd6-org">SIMI Paris — Meilleur projet immobilier tertiaire</div>
       </div>
     </div>
   </div>
@@ -1296,9 +1373,9 @@
 <section id="contact" class="section-pad">
   <div class="contact-layout">
     <div class="reveal">
-      <div class="section-label">Contactez-nous</div>
-      <h2 class="contact-h">Construisons<br/>quelque chose<br/><em>d'exceptionnel</em></h2>
-      <p class="contact-sub">Parlez-nous de votre projet — résidence privée, bâtiment public ou programme mixte, nous serions ravis d'entendre votre vision.</p>
+      <div class="section-label" data-i18n="cont-label">Contactez-nous</div>
+      <h2 class="contact-h" data-i18n-html="cont-h">Construisons<br/>quelque chose<br/><em>d'exceptionnel</em></h2>
+      <p class="contact-sub" data-i18n="cont-sub">Parlez-nous de votre projet — résidence privée, bâtiment public ou programme mixte, nous serions ravis d'entendre votre vision.</p>
       <div class="contact-infos">
         <div class="contact-info-row">
           <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -1306,11 +1383,11 @@
         </div>
         <div class="contact-info-row">
           <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 5.55 5.55l1.58-1.58a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-          <div><div class="c-val">+33 1 42 00 00 00</div><div class="c-sub">Lun–Ven, 9h–18h</div></div>
+          <div><div class="c-val">+33 1 42 00 00 00</div><div class="c-sub" data-i18n="cont-phone-sub">Lun–Ven, 9h–18h</div></div>
         </div>
         <div class="contact-info-row">
           <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          <div><div class="c-val">contact@aetherstudio.fr</div><div class="c-sub">Réponse garantie sous 24h</div></div>
+          <div><div class="c-val">contact@aetherstudio.fr</div><div class="c-sub" data-i18n="cont-email-sub">Réponse garantie sous 24h</div></div>
         </div>
       </div>
     </div>
@@ -1319,12 +1396,12 @@
       <div class="contact-form" id="contact-form">
         <div class="form-row-2">
           <div class="form-field">
-            <label class="form-label">Prénom</label>
-            <input class="form-input" type="text" id="f-fname" placeholder="Jean" />
+            <label class="form-label" data-i18n="form-fname">Prénom</label>
+            <input class="form-input" type="text" id="f-fname" placeholder="Jean" data-i18n-ph="ph-fname" />
           </div>
           <div class="form-field">
-            <label class="form-label">Nom</label>
-            <input class="form-input" type="text" id="f-lname" placeholder="Dupont" />
+            <label class="form-label" data-i18n="form-lname">Nom</label>
+            <input class="form-input" type="text" id="f-lname" placeholder="Dupont" data-i18n-ph="ph-lname" />
           </div>
         </div>
         <div class="form-row-2">
@@ -1338,29 +1415,29 @@
           </div>
         </div>
         <div class="form-field">
-          <label class="form-label">Type de projet</label>
+          <label class="form-label" data-i18n="form-type-lbl">Type de projet</label>
           <select class="form-select" id="f-type">
-            <option value="">Choisir un type de projet…</option>
-            <option>Résidence privée</option>
-            <option>Bâtiment commercial</option>
-            <option>Programme mixte</option>
-            <option>Architecture intérieure</option>
-            <option>Urbanisme</option>
+            <option value="" data-i18n="form-type-ph">Choisir un type de projet…</option>
+            <option data-i18n="form-opt1">Résidence privée</option>
+            <option data-i18n="form-opt2">Bâtiment commercial</option>
+            <option data-i18n="form-opt3">Programme mixte</option>
+            <option data-i18n="form-opt4">Architecture intérieure</option>
+            <option data-i18n="form-opt5">Urbanisme</option>
           </select>
         </div>
         <div class="form-field">
-          <label class="form-label">Parlez-nous de votre projet</label>
-          <textarea class="form-textarea" id="f-msg" placeholder="Localisation, envergure, calendrier, budget indicatif…"></textarea>
+          <label class="form-label" data-i18n="form-msg-lbl">Parlez-nous de votre projet</label>
+          <textarea class="form-textarea" id="f-msg" placeholder="Localisation, envergure, calendrier, budget indicatif…" data-i18n-ph="form-msg-ph"></textarea>
         </div>
         <button class="btn-send" onclick="submitForm()">
-          Demander un devis
+          <span data-i18n="form-btn">Demander un devis</span>
           <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
         </button>
       </div>
       <div class="form-success" id="form-success">
         <div class="form-success-icon">✓</div>
-        <h4>Merci !</h4>
-        <p>Nous avons bien reçu votre demande et vous répondrons sous 24h.</p>
+        <h4 data-i18n="form-success-h">Merci !</h4>
+        <p data-i18n="form-success-p">Nous avons bien reçu votre demande et vous répondrons sous 24h.</p>
       </div>
     </div>
   </div>
@@ -1369,8 +1446,8 @@
 <!-- ══════════ TESTIMONIALS ══════════ -->
 <section id="testimonials">
   <div class="test-header reveal">
-    <div class="section-label">Témoignages</div>
-    <h2 class="section-title">Ce que disent<br/><em>nos clients</em></h2>
+    <div class="section-label" data-i18n="test-label">Témoignages</div>
+    <h2 class="section-title" data-i18n-html="test-title">Ce que disent<br/><em>nos clients</em></h2>
   </div>
   <div class="test-grid">
     <div class="test-card reveal">
@@ -1381,12 +1458,12 @@
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
-      <p class="test-quote">« Aether Studio a transformé notre résidence en une véritable œuvre d'art habitable. L'écoute, la précision, l'élégance des solutions — tout était au-delà de nos espérances. »</p>
+      <p class="test-quote" data-i18n="test1-quote">« Aether Studio a transformé notre résidence en une véritable œuvre d'art habitable. L'écoute, la précision, l'élégance des solutions — tout était au-delà de nos espérances. »</p>
       <div class="test-author">
         <div class="test-avatar">PM</div>
         <div>
           <div class="test-name">Pierre M.</div>
-          <div class="test-project">Résidence privée — Paris 16e</div>
+          <div class="test-project" data-i18n="test1-project">Résidence privée — Paris 16e</div>
         </div>
       </div>
     </div>
@@ -1398,12 +1475,12 @@
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
-      <p class="test-quote">« Un cabinet qui comprend vraiment ce que signifie vivre dans un espace. Pas seulement des architectes — des partenaires qui ont porté notre projet comme si c'était le leur. »</p>
+      <p class="test-quote" data-i18n="test2-quote">« Un cabinet qui comprend vraiment ce que signifie vivre dans un espace. Pas seulement des architectes — des partenaires qui ont porté notre projet comme si c'était le leur. »</p>
       <div class="test-author">
         <div class="test-avatar">IT</div>
         <div>
           <div class="test-name">Isabelle & Marc T.</div>
-          <div class="test-project">Villa contemporaine — Bordeaux</div>
+          <div class="test-project" data-i18n="test2-project">Villa contemporaine — Bordeaux</div>
         </div>
       </div>
     </div>
@@ -1415,12 +1492,12 @@
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
-      <p class="test-quote">« Le siège que nous avons livré avec Aether est devenu notre meilleur argument de recrutement. Les collaborateurs adorent venir travailler. C'est la preuve que l'architecture change tout. »</p>
+      <p class="test-quote" data-i18n="test3-quote">« Le siège que nous avons livré avec Aether est devenu notre meilleur argument de recrutement. Les collaborateurs adorent venir travailler. C'est la preuve que l'architecture change tout. »</p>
       <div class="test-author">
         <div class="test-avatar">JD</div>
         <div>
           <div class="test-name">Jean-François D.</div>
-          <div class="test-project">Siège social — Lyon Part-Dieu</div>
+          <div class="test-project" data-i18n="test3-project">Siège social — Lyon Part-Dieu</div>
         </div>
       </div>
     </div>
@@ -1431,11 +1508,11 @@
 <section id="blog" class="section-pad">
   <div class="blog-header reveal">
     <div>
-      <div class="section-label">Actualités</div>
-      <h2 class="section-title">De notre <em>studio</em></h2>
+      <div class="section-label" data-i18n="blog-label">Actualités</div>
+      <h2 class="section-title" data-i18n-html="blog-title">De notre <em>studio</em></h2>
     </div>
     <a href="projets.html" class="btn-blog-all">
-      Tous les articles
+      <span data-i18n="blog-all">Tous les articles</span>
       <svg viewBox="0 0 14 10"><path d="M1 5 h12 M7 1 l5 4 -5 4"/></svg>
     </a>
   </div>
@@ -1446,22 +1523,22 @@
     <a href="article-logement-urbain.html" class="blog-card featured reveal">
       <div class="blog-img-wrap">
         <img class="blog-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=85&fit=crop" alt="The Future of Urban Housing" />
-        <div class="blog-cat-pill">Design urbain</div>
+        <div class="blog-cat-pill" data-i18n="art1-cat">Design urbain</div>
       </div>
       <div class="blog-body">
         <div class="blog-meta">
-          <span>14 avril 2026</span>
+          <span data-i18n="art1-date">14 avril 2026</span>
           <span class="blog-meta-sep"></span>
-          <span>Architecture</span>
+          <span data-i18n="art1-meta-cat">Architecture</span>
         </div>
-        <div class="blog-title">L'avenir du logement urbain : densité sans compromis</div>
-        <div class="blog-excerpt">À mesure que les villes se densifient, le défi n'est plus de construire davantage — c'est de construire mieux. Nous explorons comment le design mixte peut restaurer le lien social sans sacrifier l'intimité ni la lumière.</div>
+        <div class="blog-title" data-i18n="art1-title">L'avenir du logement urbain : densité sans compromis</div>
+        <div class="blog-excerpt" data-i18n="art1-excerpt">À mesure que les villes se densifient, le défi n'est plus de construire davantage — c'est de construire mieux. Nous explorons comment le design mixte peut restaurer le lien social sans sacrifier l'intimité ni la lumière.</div>
         <div class="blog-footer">
           <div class="blog-author">
             <div class="blog-avatar">LM</div>
             <div>
               <div class="blog-author-name">Léa Moreau</div>
-              <div class="blog-read-time">8 min de lecture</div>
+              <div class="blog-read-time" data-i18n="art1-read">8 min de lecture</div>
             </div>
           </div>
           <div class="blog-arrow">
@@ -1475,22 +1552,22 @@
     <a href="article-design-biophilique.html" class="blog-card reveal reveal-d1">
       <div class="blog-img-wrap">
         <img class="blog-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=85&fit=crop" alt="Biophilic Design" />
-        <div class="blog-cat-pill">Durabilité</div>
+        <div class="blog-cat-pill" data-i18n="art2-cat">Durabilité</div>
       </div>
       <div class="blog-body">
         <div class="blog-meta">
-          <span>28 mars 2026</span>
+          <span data-i18n="art2-date">28 mars 2026</span>
           <span class="blog-meta-sep"></span>
-          <span>Durabilité</span>
+          <span data-i18n="art2-meta-cat">Durabilité</span>
         </div>
-        <div class="blog-title">Design biophilique : pourquoi la nature a sa place à l'intérieur</div>
-        <div class="blog-excerpt">Faire entrer la nature n'est pas qu'une question d'esthétique — c'est une stratégie pour le bien-être, la productivité et l'ancrage au lieu.</div>
+        <div class="blog-title" data-i18n="art2-title">Design biophilique : pourquoi la nature a sa place à l'intérieur</div>
+        <div class="blog-excerpt" data-i18n="art2-excerpt">Faire entrer la nature n'est pas qu'une question d'esthétique — c'est une stratégie pour le bien-être, la productivité et l'ancrage au lieu.</div>
         <div class="blog-footer">
           <div class="blog-author">
             <div class="blog-avatar">JK</div>
             <div>
               <div class="blog-author-name">James Kim</div>
-              <div class="blog-read-time">5 min de lecture</div>
+              <div class="blog-read-time" data-i18n="art2-read">5 min de lecture</div>
             </div>
           </div>
           <div class="blog-arrow">
@@ -1504,22 +1581,22 @@
     <a href="article-materialite-memoire.html" class="blog-card reveal reveal-d2">
       <div class="blog-img-wrap">
         <img class="blog-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85&fit=crop" alt="Materiality in Modern Architecture" />
-        <div class="blog-cat-pill">Matériaux</div>
+        <div class="blog-cat-pill" data-i18n="art3-cat">Matériaux</div>
       </div>
       <div class="blog-body">
         <div class="blog-meta">
-          <span>10 mars 2026</span>
+          <span data-i18n="art3-date">10 mars 2026</span>
           <span class="blog-meta-sep"></span>
-          <span>Design</span>
+          <span data-i18n="art3-meta-cat">Design</span>
         </div>
-        <div class="blog-title">Matérialité et mémoire : le béton, l'acier et les histoires qu'ils racontent</div>
-        <div class="blog-excerpt">Le choix du matériau est le choix du sens. Béton brut, acier poli, bois chaud — chacun porte une histoire et détermine ce que l'on ressentira dans le bâtiment des décennies plus tard.</div>
+        <div class="blog-title" data-i18n="art3-title">Matérialité et mémoire : le béton, l'acier et les histoires qu'ils racontent</div>
+        <div class="blog-excerpt" data-i18n="art3-excerpt">Le choix du matériau est le choix du sens. Béton brut, acier poli, bois chaud — chacun porte une histoire et détermine ce que l'on ressentira dans le bâtiment des décennies plus tard.</div>
         <div class="blog-footer">
           <div class="blog-author">
             <div class="blog-avatar">SR</div>
             <div>
               <div class="blog-author-name">Sofia Reyes</div>
-              <div class="blog-read-time">6 min de lecture</div>
+              <div class="blog-read-time" data-i18n="art3-read">6 min de lecture</div>
             </div>
           </div>
           <div class="blog-arrow">
@@ -1540,7 +1617,7 @@
         <svg viewBox="0 0 34 34" fill="none"><polygon points="17,2 31,9.5 31,24.5 17,32 3,24.5 3,9.5" fill="#D9632B"/><path d="M11 17h12M17 11v12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
         <span class="footer-logo-name">Aether Studio</span>
       </div>
-      <p class="footer-brand-desc">Cabinet d'architecture parisien fondé en 2006. Nous concevons des espaces qui durent, qui émeuvent et qui élèvent la qualité de vie au quotidien.</p>
+      <p class="footer-brand-desc" data-i18n="footer-desc">Cabinet d'architecture parisien fondé en 2006. Nous concevons des espaces qui durent, qui émeuvent et qui élèvent la qualité de vie au quotidien.</p>
       <div class="footer-socials">
         <a href="#" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
         <a href="#" class="footer-social" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
@@ -1551,11 +1628,11 @@
     <div class="footer-col">
       <div class="footer-col-title">Navigation</div>
       <ul>
-        <li><a href="#projects">Nos projets</a></li>
+        <li><a href="#projects" data-i18n="fnav1">Nos projets</a></li>
         <li><a href="#services">Services</a></li>
-        <li><a href="#process">Notre méthode</a></li>
-        <li><a href="#team">L'équipe</a></li>
-        <li><a href="#awards">Prix & distinctions</a></li>
+        <li><a href="#process" data-i18n="fnav3">Notre méthode</a></li>
+        <li><a href="#team" data-i18n="fnav4">L'équipe</a></li>
+        <li><a href="#awards" data-i18n="fnav5">Prix & distinctions</a></li>
         <li><a href="#blog">Blog</a></li>
       </ul>
     </div>
@@ -1563,20 +1640,20 @@
       <div class="footer-col-title">Services</div>
       <ul>
         <li><a href="#services">Architecture</a></li>
-        <li><a href="#services">Architecture intérieure</a></li>
-        <li><a href="#services">Urbanisme</a></li>
-        <li><a href="#services">Design durable</a></li>
-        <li><a href="#contact">Demander un devis</a></li>
+        <li><a href="#services" data-i18n="fsvc2">Architecture intérieure</a></li>
+        <li><a href="#services" data-i18n="fsvc3">Urbanisme</a></li>
+        <li><a href="#services" data-i18n="fsvc4">Design durable</a></li>
+        <li><a href="#contact" data-i18n="fsvc5">Demander un devis</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Contact</div>
       <div class="footer-contact-item">
-        <span class="footer-contact-label">Adresse</span>
+        <span class="footer-contact-label" data-i18n="fcont-addr-lbl">Adresse</span>
         <span class="footer-contact-val">12 rue du Faubourg Saint-Honoré<br/>75008 Paris</span>
       </div>
       <div class="footer-contact-item">
-        <span class="footer-contact-label">Téléphone</span>
+        <span class="footer-contact-label" data-i18n="fcont-phone-lbl">Téléphone</span>
         <a href="tel:+33142000000" class="footer-contact-val">+33 1 42 00 00 00</a>
       </div>
       <div class="footer-contact-item">
@@ -1586,13 +1663,13 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Aether Studio — Tous droits réservés</div>
+    <div class="footer-copy" data-i18n="footer-copy">© 2026 Aether Studio — Tous droits réservés</div>
     <ul class="footer-legal">
-      <li><a href="#">Mentions légales</a></li>
-      <li><a href="#">Politique de confidentialité</a></li>
-      <li><a href="#">CGV</a></li>
-      <li><a href="#">Recrutement</a></li>
-      <li><a href="#">Presse</a></li>
+      <li><a href="#" data-i18n="legal1">Mentions légales</a></li>
+      <li><a href="#" data-i18n="legal2">Politique de confidentialité</a></li>
+      <li><a href="#" data-i18n="legal3">CGV</a></li>
+      <li><a href="#" data-i18n="legal4">Recrutement</a></li>
+      <li><a href="#" data-i18n="legal5">Presse</a></li>
     </ul>
   </div>
 </footer>
@@ -1603,6 +1680,218 @@
 </button>
 
 <script>
+// ── TRANSLATIONS ──────────────────────────────────────────────
+const T = {
+  fr: {
+    'page-title':'Aether Studio — Cabinet d\'architecture à Paris',
+    'nav-projects':'Projets','nav-studio':'Notre studio','nav-cta':'Demander un devis',
+    'mobile-cta':'Démarrer votre projet',
+    'hero-tag':'Cabinet d\'architecture basé à Paris',
+    'hero-h1':'Redéfinir<br/>les espaces,<br/><em>Sublimer</em><br/>les modes de vie',
+    'hero-sub':'Nous créons des expériences architecturales visionnaires qui harmonisent forme et fonction, façonnant des espaces où il fait bon vivre.',
+    'hero-minimal':'Minimal. Moderne. Authentique.',
+    'hero-btn1':'Démarrer votre projet','hero-btn2':'Voir nos réalisations',
+    'badge-title':'Primé','badge-sub':'Médaille d\'or AIA 2024',
+    'stat1-lbl':'Projets livrés','stat2-lbl':'Années d\'excellence','stat3-lbl':'Prix de design',
+    'logos-label':'Ils nous font confiance',
+    'proj-label':'Nos réalisations',
+    'proj-title':'Des bâtiments qui<br/><em>façonnent les horizons</em>',
+    'proj-sub':'Trois décennies à réinventer l\'environnement bâti — des résidences privées aux monuments civiques, à Paris et au-delà.',
+    'proj-all':'Voir tous les projets',
+    'proj-cat1':'Résidentiel · Usage mixte','proj-cat2':'Culturel · Civique','proj-cat3':'Résidentiel · Prestige',
+    'svc-label':'Ce que nous faisons',
+    'svc-title':'Maîtrise totale<br/><em>du projet</em>',
+    'svc-intro':'Du premier croquis au dernier détail, nous orchestrons chaque dimension de l\'expérience architecturale avec précision et soin.',
+    'svc-cta':'Travailler avec nous',
+    'svc1-name':'Architecture','svc1-desc':'Conception architecturale complète du concept jusqu\'à la documentation de chantier, adaptée au site, au contexte et à la vision du client.',
+    'svc2-name':'Architecture intérieure','svc2-desc':'Aménagement spatial et design intérieur prolongeant la logique architecturale — matériaux, lumière et volumes en harmonie.',
+    'svc3-name':'Urbanisme','svc3-desc':'Stratégies de planification urbaine façonnant les quartiers avec une vision à long terme centrée sur l\'humain.',
+    'svc4-name':'Design durable','svc4-desc':'Systèmes passifs, matériaux bas carbone et principes biophiliques intégrés dès la conception — pas en option.',
+    'proc-label':'Notre méthode',
+    'proc-title':'Un processus éprouvé,<br/><em>des résultats constants</em>',
+    'proc1-name':'Écoute & Brief','proc1-desc':'Chaque projet commence par une immersion complète dans votre vision, vos contraintes et vos aspirations. Pas de solution préconçue — une écoute totale.',
+    'proc2-name':'Concept & Esquisse','proc2-desc':'Nous développons plusieurs pistes conceptuelles, traduites en esquisses et maquettes volumétriques. Vous choisissez la direction, nous l\'affinons ensemble.',
+    'proc3-name':'Développement','proc3-desc':'Plans d\'exécution, détails de construction, choix des matériaux et coordination des corps de métier — nous gérons chaque dimension technique avec rigueur.',
+    'proc4-name':'Livraison & Suivi','proc4-desc':'Suivi de chantier rigoureux, réception des travaux et accompagnement post-livraison. Votre satisfaction est notre engagement jusqu\'au bout.',
+    'phil-quote':'« Minimal. Moderne. <span>Authentique.</span> — L\'architecture ne parle pas de bâtiments. Elle parle des vies qui s\'y déroulent. »',
+    'phil-label':'Notre philosophie',
+    'phil-body':'Nous croyons que la grande architecture, c\'est la confiance tranquille d\'un espace qui fonctionne — où chaque décision, du placement d\'une fenêtre au grain d\'un parquet, sert l\'expérience humaine. La beauté n\'est pas décoration. C\'est la précision à son plus haut degré.',
+    'pnum1-lbl':'Projets livrés','pnum2-lbl':'Années d\'expertise','pnum3-lbl':'Prix remportés',
+    'team-label':'L\'équipe','team-title':'Des architectes<br/><em>passionnés</em>',
+    'team-sub':'Une équipe pluridisciplinaire de 24 architectes, designers et urbanistes, réunis autour d\'une conviction partagée : l\'excellence n\'est pas une option.',
+    't1-badge':'Fondateur','t1-title':'Architecte principal','t1-desc':'30 ans d\'expérience. Ancien élève de l\'ENSA Paris-Belleville. Lauréat du Grand Prix de l\'Architecture 2022.',
+    't2-badge':'Direction','t2-title':'Directrice des projets','t2-desc':'Spécialiste en architecture durable. Ancienne chef de projet chez Renzo Piano Building Workshop, Milan.',
+    't3-badge':'Architecture','t3-title':'Architecte senior','t3-desc':'Expert en structure et enveloppe. Pilote nos projets de grande envergure en France et en Europe depuis 12 ans.',
+    't4-badge':'Intérieur','t4-title':'Design intérieur','t4-desc':'Maîtrise l\'art de la lumière et des matières. Diplômée de l\'École Camondo, Paris. Référence en design biophilique.',
+    'awd-label':'Reconnaissances','awd-title':'Prix & <em>distinctions</em>',
+    'awd1-name':'Équerre d\'Argent','awd1-org':'Le Moniteur — Catégorie Logement collectif',
+    'awd2-name':'Prix AMO Architecture','awd2-org':'Association des Maîtres d\'Ouvrage — Bâtiment durable',
+    'awd3-org':'Académie d\'Architecture de France',
+    'awd4-org':'Red Dot Design Award — Architecture & Design d\'espace',
+    'awd5-name':'Prix Paysages de Reconquête','awd5-org':'Ministère de la Culture — Urbanisme & espaces publics',
+    'awd6-org':'SIMI Paris — Meilleur projet immobilier tertiaire',
+    'cont-label':'Contactez-nous',
+    'cont-h':'Construisons<br/>quelque chose<br/><em>d\'exceptionnel</em>',
+    'cont-sub':'Parlez-nous de votre projet — résidence privée, bâtiment public ou programme mixte, nous serions ravis d\'entendre votre vision.',
+    'cont-phone-sub':'Lun–Ven, 9h–18h','cont-email-sub':'Réponse garantie sous 24h',
+    'form-fname':'Prénom','form-lname':'Nom','form-type-lbl':'Type de projet',
+    'form-type-ph':'Choisir un type de projet…',
+    'form-opt1':'Résidence privée','form-opt2':'Bâtiment commercial','form-opt3':'Programme mixte','form-opt4':'Architecture intérieure','form-opt5':'Urbanisme',
+    'form-msg-lbl':'Parlez-nous de votre projet','form-msg-ph':'Localisation, envergure, calendrier, budget indicatif…',
+    'form-btn':'Demander un devis','form-success-h':'Merci !','form-success-p':'Nous avons bien reçu votre demande et vous répondrons sous 24h.',
+    'ph-fname':'Jean','ph-lname':'Dupont',
+    'test-label':'Témoignages','test-title':'Ce que disent<br/><em>nos clients</em>',
+    'test1-quote':'« Aether Studio a transformé notre résidence en une véritable œuvre d\'art habitable. L\'écoute, la précision, l\'élégance des solutions — tout était au-delà de nos espérances. »',
+    'test1-project':'Résidence privée — Paris 16e',
+    'test2-quote':'« Un cabinet qui comprend vraiment ce que signifie vivre dans un espace. Pas seulement des architectes — des partenaires qui ont porté notre projet comme si c\'était le leur. »',
+    'test2-project':'Villa contemporaine — Bordeaux',
+    'test3-quote':'« Le siège que nous avons livré avec Aether est devenu notre meilleur argument de recrutement. Les collaborateurs adorent venir travailler. C\'est la preuve que l\'architecture change tout. »',
+    'test3-project':'Siège social — Lyon Part-Dieu',
+    'blog-label':'Actualités','blog-title':'De notre <em>studio</em>','blog-all':'Tous les articles',
+    'art1-cat':'Design urbain','art1-meta-cat':'Architecture','art1-date':'14 avril 2026',
+    'art1-title':'L\'avenir du logement urbain : densité sans compromis',
+    'art1-excerpt':'À mesure que les villes se densifient, le défi n\'est plus de construire davantage — c\'est de construire mieux. Nous explorons comment le design mixte peut restaurer le lien social sans sacrifier l\'intimité ni la lumière.',
+    'art1-read':'8 min de lecture',
+    'art2-cat':'Durabilité','art2-meta-cat':'Durabilité','art2-date':'28 mars 2026',
+    'art2-title':'Design biophilique : pourquoi la nature a sa place à l\'intérieur',
+    'art2-excerpt':'Faire entrer la nature n\'est pas qu\'une question d\'esthétique — c\'est une stratégie pour le bien-être, la productivité et l\'ancrage au lieu.',
+    'art2-read':'5 min de lecture',
+    'art3-cat':'Matériaux','art3-meta-cat':'Design','art3-date':'10 mars 2026',
+    'art3-title':'Matérialité et mémoire : le béton, l\'acier et les histoires qu\'ils racontent',
+    'art3-excerpt':'Le choix du matériau est le choix du sens. Béton brut, acier poli, bois chaud — chacun porte une histoire et détermine ce que l\'on ressentira dans le bâtiment des décennies plus tard.',
+    'art3-read':'6 min de lecture',
+    'footer-desc':'Cabinet d\'architecture parisien fondé en 2006. Nous concevons des espaces qui durent, qui émeuvent et qui élèvent la qualité de vie au quotidien.',
+    'fnav1':'Nos projets','fnav3':'Notre méthode','fnav4':'L\'équipe','fnav5':'Prix & distinctions',
+    'fsvc2':'Architecture intérieure','fsvc3':'Urbanisme','fsvc4':'Design durable','fsvc5':'Demander un devis',
+    'fcont-addr-lbl':'Adresse','fcont-phone-lbl':'Téléphone',
+    'footer-copy':'© 2026 Aether Studio — Tous droits réservés',
+    'legal1':'Mentions légales','legal2':'Politique de confidentialité','legal3':'CGV','legal4':'Recrutement','legal5':'Presse',
+    'val1':'Veuillez saisir votre nom','val2':'Veuillez saisir votre email','val3':'Veuillez choisir un type de projet',
+  },
+  en: {
+    'page-title':'Aether Studio — Architecture Studio in Paris',
+    'nav-projects':'Projects','nav-studio':'Our studio','nav-cta':'Request a quote',
+    'mobile-cta':'Start your project',
+    'hero-tag':'Architecture studio based in Paris',
+    'hero-h1':'Redefining<br/>spaces,<br/><em>Elevating</em><br/>ways of living',
+    'hero-sub':'We create visionary architectural experiences that harmonise form and function, shaping spaces where life truly flourishes.',
+    'hero-minimal':'Minimal. Modern. Authentic.',
+    'hero-btn1':'Start your project','hero-btn2':'View our work',
+    'badge-title':'Awarded','badge-sub':'AIA Gold Medal 2024',
+    'stat1-lbl':'Projects delivered','stat2-lbl':'Years of excellence','stat3-lbl':'Design awards',
+    'logos-label':'They trust us',
+    'proj-label':'Our projects',
+    'proj-title':'Buildings that<br/><em>shape the skyline</em>',
+    'proj-sub':'Three decades reinventing the built environment — from private residences to civic landmarks, in Paris and beyond.',
+    'proj-all':'View all projects',
+    'proj-cat1':'Residential · Mixed-use','proj-cat2':'Cultural · Civic','proj-cat3':'Residential · Prestige',
+    'svc-label':'What we do',
+    'svc-title':'Total project<br/><em>mastery</em>',
+    'svc-intro':'From first sketch to final detail, we orchestrate every dimension of the architectural experience with precision and care.',
+    'svc-cta':'Work with us',
+    'svc1-name':'Architecture','svc1-desc':'Complete architectural design from concept to construction documentation, tailored to the site, context and client\'s vision.',
+    'svc2-name':'Interior Architecture','svc2-desc':'Spatial planning and interior design extending the architectural logic — materials, light and volumes in harmony.',
+    'svc3-name':'Urban Planning','svc3-desc':'Urban planning strategies shaping neighbourhoods with a long-term, human-centred vision.',
+    'svc4-name':'Sustainable Design','svc4-desc':'Passive systems, low-carbon materials and biophilic principles integrated from the outset — not as an afterthought.',
+    'proc-label':'Our method',
+    'proc-title':'A proven process,<br/><em>consistent results</em>',
+    'proc1-name':'Listen & Brief','proc1-desc':'Every project begins with a deep immersion in your vision, constraints and aspirations. No preset solution — total listening.',
+    'proc2-name':'Concept & Sketch','proc2-desc':'We develop multiple conceptual directions, translated into sketches and volumetric models. You choose the path; we refine it together.',
+    'proc3-name':'Development','proc3-desc':'Execution drawings, construction details, material selection and trade coordination — we manage every technical dimension with rigour.',
+    'proc4-name':'Delivery & Follow-up','proc4-desc':'Rigorous site supervision, project handover and post-delivery support. Your satisfaction is our commitment to the end.',
+    'phil-quote':'« Minimal. Modern. <span>Authentic.</span> — Architecture is not about buildings. It is about the lives that unfold within them. »',
+    'phil-label':'Our philosophy',
+    'phil-body':'We believe that great architecture is the quiet confidence of a space that works — where every decision, from the placement of a window to the grain of a floor, serves the human experience. Beauty is not decoration. It is precision at its highest.',
+    'pnum1-lbl':'Projects delivered','pnum2-lbl':'Years of expertise','pnum3-lbl':'Awards won',
+    'team-label':'The team','team-title':'Passionate<br/><em>architects</em>',
+    'team-sub':'A multidisciplinary team of 24 architects, designers and urban planners, united by a shared conviction: excellence is non-negotiable.',
+    't1-badge':'Founder','t1-title':'Principal Architect','t1-desc':'30 years of experience. Graduate of ENSA Paris-Belleville. Winner of the Grand Prix de l\'Architecture 2022.',
+    't2-badge':'Management','t2-title':'Projects Director','t2-desc':'Specialist in sustainable architecture. Former project lead at Renzo Piano Building Workshop, Milan.',
+    't3-badge':'Architecture','t3-title':'Senior Architect','t3-desc':'Expert in structure and building envelope. Has led our large-scale projects in France and Europe for 12 years.',
+    't4-badge':'Interior','t4-title':'Interior Design','t4-desc':'Master of light and materials. Graduate of École Camondo, Paris. A reference in biophilic design.',
+    'awd-label':'Recognition','awd-title':'Awards & <em>distinctions</em>',
+    'awd1-name':'Silver Set Square','awd1-org':'Le Moniteur — Multi-family Housing category',
+    'awd2-name':'AMO Architecture Award','awd2-org':'Association of Project Owners — Sustainable building',
+    'awd3-org':'French Academy of Architecture',
+    'awd4-org':'Red Dot Design Award — Architecture & Space Design',
+    'awd5-name':'Reconquest Landscape Award','awd5-org':'Ministry of Culture — Urban planning & public spaces',
+    'awd6-org':'SIMI Paris — Best tertiary real estate project',
+    'cont-label':'Contact us',
+    'cont-h':'Let\'s build<br/>something<br/><em>exceptional</em>',
+    'cont-sub':'Tell us about your project — private residence, public building or mixed-use programme, we\'d love to hear your vision.',
+    'cont-phone-sub':'Mon–Fri, 9am–6pm','cont-email-sub':'Response guaranteed within 24h',
+    'form-fname':'First name','form-lname':'Last name','form-type-lbl':'Project type',
+    'form-type-ph':'Choose a project type…',
+    'form-opt1':'Private residence','form-opt2':'Commercial building','form-opt3':'Mixed-use programme','form-opt4':'Interior architecture','form-opt5':'Urban planning',
+    'form-msg-lbl':'Tell us about your project','form-msg-ph':'Location, scope, timeline, indicative budget…',
+    'form-btn':'Request a quote','form-success-h':'Thank you!','form-success-p':'We have received your request and will get back to you within 24h.',
+    'ph-fname':'John','ph-lname':'Smith',
+    'test-label':'Testimonials','test-title':'What our<br/><em>clients say</em>',
+    'test1-quote':'« Aether Studio transformed our home into a true liveable work of art. The listening, the precision, the elegance of every solution — all beyond our expectations. »',
+    'test1-project':'Private residence — Paris 16th',
+    'test2-quote':'« A firm that truly understands what it means to live in a space. Not just architects — partners who carried our project as if it were their own. »',
+    'test2-project':'Contemporary villa — Bordeaux',
+    'test3-quote':'« The headquarters we delivered with Aether has become our greatest recruitment argument. Colleagues love coming to work. That is proof that architecture changes everything. »',
+    'test3-project':'Corporate HQ — Lyon Part-Dieu',
+    'blog-label':'News','blog-title':'From our <em>studio</em>','blog-all':'All articles',
+    'art1-cat':'Urban design','art1-meta-cat':'Architecture','art1-date':'April 14, 2026',
+    'art1-title':'The future of urban housing: density without compromise',
+    'art1-excerpt':'As cities grow denser, the challenge is no longer to build more — it\'s to build better. We explore how mixed-use design can restore social bonds without sacrificing privacy or light.',
+    'art1-read':'8 min read',
+    'art2-cat':'Sustainability','art2-meta-cat':'Sustainability','art2-date':'March 28, 2026',
+    'art2-title':'Biophilic design: why nature belongs inside',
+    'art2-excerpt':'Bringing nature in is not just an aesthetic choice — it\'s a strategy for well-being, productivity and sense of place.',
+    'art2-read':'5 min read',
+    'art3-cat':'Materials','art3-meta-cat':'Design','art3-date':'March 10, 2026',
+    'art3-title':'Materiality and memory: concrete, steel and the stories they tell',
+    'art3-excerpt':'Choosing a material is choosing a meaning. Raw concrete, polished steel, warm wood — each carries a story and determines what we will feel inside the building decades from now.',
+    'art3-read':'6 min read',
+    'footer-desc':'Parisian architecture firm founded in 2006. We design spaces that last, that move people and that elevate the quality of daily life.',
+    'fnav1':'Our projects','fnav3':'Our method','fnav4':'The team','fnav5':'Awards & distinctions',
+    'fsvc2':'Interior Architecture','fsvc3':'Urban Planning','fsvc4':'Sustainable Design','fsvc5':'Request a quote',
+    'fcont-addr-lbl':'Address','fcont-phone-lbl':'Phone',
+    'footer-copy':'© 2026 Aether Studio — All rights reserved',
+    'legal1':'Legal notice','legal2':'Privacy policy','legal3':'T&C','legal4':'Careers','legal5':'Press',
+    'val1':'Please enter your name','val2':'Please enter your email','val3':'Please select a project type',
+  }
+};
+
+let currentLang = 'fr';
+let isDark = false;
+
+function applyLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.title = T[lang]['page-title'];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[lang][el.dataset.i18n];
+    if (v !== undefined) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const v = T[lang][el.dataset.i18nHtml];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const v = T[lang][el.dataset.i18nPh];
+    if (v !== undefined) el.placeholder = v;
+  });
+  const btn = document.getElementById('lang-btn');
+  if (btn) btn.textContent = lang === 'fr' ? 'EN' : 'FR';
+  try { localStorage.setItem('aether-lang', lang); } catch(e){}
+}
+
+function toggleLang() { applyLang(currentLang === 'fr' ? 'en' : 'fr'); }
+
+function toggleDark() {
+  isDark = !isDark;
+  document.body.classList.toggle('dark', isDark);
+  const btn = document.getElementById('dark-btn');
+  if (btn) btn.innerHTML = isDark
+    ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  try { localStorage.setItem('aether-dark', isDark); } catch(e){}
+}
+
 // Reveal on scroll
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
@@ -1624,9 +1913,9 @@ function submitForm() {
   const fname = document.getElementById('f-fname').value.trim();
   const email = document.getElementById('f-email').value.trim();
   const type  = document.getElementById('f-type').value;
-  if (!fname) { showToast('Veuillez saisir votre nom'); return; }
-  if (!email) { showToast('Veuillez saisir votre email'); return; }
-  if (!type)  { showToast('Veuillez choisir un type de projet'); return; }
+  if (!fname) { showToast(T[currentLang]['val1']); return; }
+  if (!email) { showToast(T[currentLang]['val2']); return; }
+  if (!type)  { showToast(T[currentLang]['val3']); return; }
   document.getElementById('contact-form').style.display = 'none';
   document.getElementById('form-success').classList.add('show');
 }
@@ -1659,6 +1948,16 @@ const scrollSpy = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.3, rootMargin: '-80px 0px -60% 0px' });
 sections.forEach(id => { const s = document.getElementById(id); if (s) scrollSpy.observe(s); });
+
+// Restore saved preferences
+(function() {
+  try {
+    const savedDark = localStorage.getItem('aether-dark');
+    const savedLang = localStorage.getItem('aether-lang');
+    if (savedDark === 'true') toggleDark();
+    if (savedLang && savedLang !== 'fr') applyLang(savedLang);
+  } catch(e){}
+})();
 </script>
 </body>
 </html>
